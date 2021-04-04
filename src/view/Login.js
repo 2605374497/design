@@ -1,6 +1,8 @@
 import { Row, Col, Form, Input, Button, Radio } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
-import '../styles/Login.scss'
+import '../styles/Login.scss';
+import axios from 'axios';
+import '../mock/mock';
 
 const FormItem = Form.Item;
 function Login() {
@@ -8,6 +10,9 @@ function Login() {
     console.log('Success:', values);
   };
 
+  axios.get("/api/get/student").then((res) => {
+    console.log(res);
+  });
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -21,27 +26,24 @@ function Login() {
       <FormItem className="title">登录</FormItem>
       <FormItem
         name="username"
-        prefix={<UserOutlined />}
-        rules={[{ required: true, message: '请输入用户名!' }]}
+        rules={[{ required: true, message: '请输入学号!' }]}
       >
-        <Input placeholder="请输入账号" />
+        <Input placeholder="请输入学号" prefix={<UserOutlined />} />
       </FormItem>
 
       <FormItem
         name="password"
-        prefix={<UnlockOutlined />}
         rules={[{ required: true, message: '请输入密码!' }]}
       >
-        <Input.Password placeholder="请输入密码" />
+        <Input.Password placeholder="请输入密码" prefix={<UnlockOutlined />} />
       </FormItem>
       <FormItem
         name="code"
-        prefix={<UnlockOutlined />}
         rules={[{ required: true, message: '请输入验证码!' }]}
       >
         <Row gutter={13}>
           <Col span={15}>
-            <Input placeholder="请输入验证码" />
+            <Input placeholder="请输入验证码" prefix={<UnlockOutlined />} />
           </Col>
           <Col span={6}>
             <Button danger type="primary">获取验证码</Button>
