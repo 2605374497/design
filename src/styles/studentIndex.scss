@@ -1,0 +1,17 @@
+.studentIndex {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+
+  .top {
+    background-color: #fff;
+    display: flex;
+  }
+  .drop{
+    padding: 10px;
+    font-size: 16px;
+  }
+  .drop:hover{
+    background-color: #eee;
+  }
+}

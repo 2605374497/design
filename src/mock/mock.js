@@ -1,25 +1,33 @@
 import Mock from 'mockjs';
 
-const { student } = Mock.mock({
+const { student, teacher } = Mock.mock({
     'student|10': [
         {
-            'netID': '17050518@increment(1)',
+            'netID|+1': 17050518101,
             'password': 'student'
         }
     ],
-    'teacher|10':[
+    'teacher|10': [
         {
-            'netID':'111111@increment(1)',
-            'password':'admin'
+            'netID|+1': 111111,
+            'password': 'admin'
         }
     ]
 });
 
-// 获取学生信息
+// 学生登录
 Mock.mock('/api/get/student', 'get', () => {
     return {
         status: 200,
         msg: '获取数据成功',
         student: student
+    }
+})
+// 教师登录
+Mock.mock('/api/get/teacher', 'get', () => {
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        teacher: teacher
     }
 })

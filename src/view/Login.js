@@ -1,4 +1,4 @@
-import { Row, Col, Form, Input, Button, Radio, Message, Modal } from 'antd';
+import { Form, Input, Button, Radio, Modal, Message } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import '../styles/Login.scss';
 import axios from 'axios';
@@ -6,34 +6,56 @@ import '../mock/mock';
 import { useHistory } from 'react-router-dom'
 
 const FormItem = Form.Item;
+
 const Login = () => {
   const history = useHistory();
+  // 登录
   const onFinish = (values) => {
     if (values.select === 'student') {
       axios.get("/api/get/student").then((res) => {
-        const data = res.data.student;
-        data.map((item, index) => {
-          if (values.netID === item.netID && values.password === item.password) {
-            history.push('/About');
+        // console.log(res, '--student');
+        const data = res?.data?.student;
+        data.every((item, index) => {
+          // console.log(values, '--values');
+          if (values.netID == item.netID && values.password == item.password) {
+            history.push('/student/index');
+            return false;
           } else {
             if (index === data.length - 1) {
               let secondsToGo = 3;
               const modal = Modal.error({
-                // title: 'This is a notification message',
                 content: `用户名或密码错误`,
                 centered: true,
                 footer: false,
                 okText: '确定'
               });
               modal.footer = null;
-              // const timer = setInterval(() => {
-              //   secondsToGo -= 1;
-              //   modal.update({
-              //     content: `This modal will be destroyed after ${secondsToGo} second.`,
-              //   });
-              // }, 1000);
               setTimeout(() => {
-                // clearInterval(timer);
+                modal.destroy();
+              }, secondsToGo * 1000);
+            }
+          }
+          return null;
+        })
+      });
+    } else {
+      axios.get("/api/get/teacher").then((res) => {
+        // console.log(res, '---teacher');
+        const data = res?.data?.teacher;
+        data.map((item, index) => {
+          if (values.netID == item.netID && values.password == item.password) {
+            history.push('/teacher/index');
+          } else {
+            if (index === data.length - 1) {
+              let secondsToGo = 3;
+              const modal = Modal.error({
+                content: `用户名或密码错误`,
+                centered: true,
+                footer: false,
+                okText: '确定'
+              });
+              modal.footer = null;
+              setTimeout(() => {
                 modal.destroy();
               }, secondsToGo * 1000);
             }
@@ -43,8 +65,9 @@ const Login = () => {
       });
     }
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+  // 有必填项未填
+  const onFinishFailed = () => {
+    Message.error('请确认是否填写完成', 3)
   };
   return (
     <div className="login">
@@ -62,12 +85,6 @@ const Login = () => {
           <Input
             placeholder="请输入学号或职工号"
             prefix={<UserOutlined />}
-            ref={(node) => {
-              console.log(node);
-              node?.fours({
-                cursor: 'start',
-              });
-            }}
           />
         </FormItem>
 
@@ -75,7 +92,10 @@ const Login = () => {
           name="password"
           rules={[{ required: true, message: '请输入密码!' }]}
         >
-          <Input.Password placeholder="请输入密码" prefix={<UnlockOutlined />} />
+          <Input.Password
+            placeholder="请输入密码"
+            prefix={<UnlockOutlined />}
+          />
         </FormItem>
         {/* <FormItem
           name="code"

@@ -1,13 +1,13 @@
 import './styles/App.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './view/Login';
-import About from './view/About'
+import StudentIndex from './view/student/Index'
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route component={About} path='/About'></Route>
+        <Route component={StudentIndex} path='/student/index'></Route>
         <Route exact component={Login} path='/'></Route>
       </Switch>
     </Router>
