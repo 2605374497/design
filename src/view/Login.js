@@ -1,4 +1,4 @@
-import { Row, Col, Form, Input, Button, Radio, Message } from 'antd';
+import { Row, Col, Form, Input, Button, Radio, Message, Modal } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import '../styles/Login.scss';
 import axios from 'axios';
@@ -17,15 +17,28 @@ const Login = () => {
             history.push('/About');
           } else {
             if (index === data.length - 1) {
-              Message.error({
-                top: 100,
-                duration: 2,
-                maxCount: 3,
-                rtl: true,
-                prefixCls: 'my-message',
+              let secondsToGo = 3;
+              const modal = Modal.error({
+                // title: 'This is a notification message',
+                content: `用户名或密码错误`,
+                centered: true,
+                footer: false,
+                okText: '确定'
               });
+              modal.footer = null;
+              // const timer = setInterval(() => {
+              //   secondsToGo -= 1;
+              //   modal.update({
+              //     content: `This modal will be destroyed after ${secondsToGo} second.`,
+              //   });
+              // }, 1000);
+              setTimeout(() => {
+                // clearInterval(timer);
+                modal.destroy();
+              }, secondsToGo * 1000);
             }
           }
+          return null;
         })
       });
     }
@@ -46,7 +59,16 @@ const Login = () => {
           name="netID"
           rules={[{ required: true, message: '请输入学号或职工号!' }]}
         >
-          <Input placeholder="请输入学号或职工号" prefix={<UserOutlined />} />
+          <Input
+            placeholder="请输入学号或职工号"
+            prefix={<UserOutlined />}
+            ref={(node) => {
+              console.log(node);
+              node?.fours({
+                cursor: 'start',
+              });
+            }}
+          />
         </FormItem>
 
         <FormItem

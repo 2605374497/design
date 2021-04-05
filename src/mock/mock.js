@@ -4,7 +4,13 @@ const { student } = Mock.mock({
     'student|10': [
         {
             'netID': '17050518@increment(1)',
-            'password': '111111'
+            'password': 'student'
+        }
+    ],
+    'teacher|10':[
+        {
+            'netID':'111111@increment(1)',
+            'password':'admin'
         }
     ]
 });
