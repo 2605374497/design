@@ -3,7 +3,7 @@ import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import '../styles/Login.scss';
 import axios from 'axios';
 import '../mock/mock';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 const FormItem = Form.Item;
 
@@ -13,11 +13,11 @@ const Login = () => {
   const onFinish = (values) => {
     if (values.select === 'student') {
       axios.get("/api/get/student").then((res) => {
-        // console.log(res, '--student');
+        console.log(res, '--student');
         const data = res?.data?.student;
         data.every((item, index) => {
-          // console.log(values, '--values');
           if (values.netID == item.netID && values.password == item.password) {
+            localStorage.setItem('id', values.netID);
             history.push('/student/index');
             return false;
           } else {
@@ -42,9 +42,11 @@ const Login = () => {
       axios.get("/api/get/teacher").then((res) => {
         // console.log(res, '---teacher');
         const data = res?.data?.teacher;
-        data.map((item, index) => {
+        data.every((item, index) => {
           if (values.netID == item.netID && values.password == item.password) {
+            localStorage.setItem('id', values.netID);
             history.push('/teacher/index');
+            return false;
           } else {
             if (index === data.length - 1) {
               let secondsToGo = 3;
