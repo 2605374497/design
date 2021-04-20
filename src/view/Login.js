@@ -13,13 +13,14 @@ const Login = () => {
   const onFinish = (values) => {
     if (values.select === 'student') {
       axios.get("/api/get/student").then((res) => {
-        console.log(res, '--student');
         const data = res?.data?.student;
-        data.every((item, index) => {
-          if (values.netID == item.netID && values.password == item.password) {
+        for (let index = 0; index < data.length; index++) {
+          if (values.netID == data[index].netID && values.password == data[index].password) {
             localStorage.setItem('id', values.netID);
-            history.push('/student/index');
-            return false;
+            history.push({
+              pathname: '/student/index',
+            });
+            return;
           } else {
             if (index === data.length - 1) {
               let secondsToGo = 3;
@@ -35,8 +36,7 @@ const Login = () => {
               }, secondsToGo * 1000);
             }
           }
-          return null;
-        })
+        };
       });
     } else {
       axios.get("/api/get/teacher").then((res) => {

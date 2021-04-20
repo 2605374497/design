@@ -1,10 +1,10 @@
 .studentIndex {
   width: 100vw;
   height: 100vh;
-  background-color: #eee;
+  background-color: white;
 
   .top {
-    background-color: #fff;
+    background-color: #fafafa;
     display: flex;
     align-items: center;
     position: relative;
@@ -21,8 +21,43 @@
     background-color: #eee;
   }
   .content{
-    background-color: white;
-    margin-top: 20px;
-    padding-left: 20px;
+    // background-color: white;
+    // margin-top: 20px;
+    padding: 20px;
+  }
+  .message{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    background-color: #fafafa;
+    padding: 10px;
+  }
+  .announce{
+    padding: 20px;
+  }
+  .head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #fafafa;
+    align-items: center;
+  }
+  .title{
+    color: black;
+    font-size: 16px;
+    padding-left: 10px;
+    line-height: 32px;
+  }
+  .more{
+    color: black;
+    font-size: 16px;
+  }
+  .divider{
+    margin: 0;
+  }
+  .link{
+    text-decoration: none;
   }
 }
