@@ -1,0 +1,36 @@
+.announceDetail{
+  background-color: #eee;
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  // text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .head{
+    text-align: center;
+  }
+  .detail{
+    width: 80%;
+  }
+  .content{
+    background-color: #fff;
+    font-size: 20px;
+    padding: 20px;
+    line-height: 20px;
+    letter-spacing: 5px;
+    height: 100%;
+    white-space:pre-wrap;
+  }
+  .title{
+    padding: 20px;
+    background-color: #fff;
+    font-size: 32px;
+    text-align: center;
+    color: #ff5000;
+  }
+  .divider{
+    margin: 0;
+    height: 3px;
+  }
+}

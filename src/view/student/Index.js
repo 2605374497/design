@@ -23,7 +23,6 @@ const project = (
   </Menu>
 )
 const Index = (props) => {
-  console.log(props.location.state, '--props');
   const history = useHistory();
   let isLogin = localStorage.getItem('id') || false;
   const logout = () => {
@@ -54,7 +53,7 @@ const Index = (props) => {
   const [Message, setMessage] = useState();
   const [announce, setAnnounce] = useState();
   const [active, setActive] = useState();
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   useEffect(() => {
     axios.get('/api/get/student').then((res) => {
       let data = res?.data?.student;
@@ -64,13 +63,13 @@ const Index = (props) => {
         }
       }
     });
-    axios.post('/api/get/announce', { page: page }).then((res) => {
+    axios.post('/api/get/announce', { page: 0 }).then((res) => {
       setAnnounce(res.data.announce);
-    })
-    axios.post('/api/get/active', { page: page }).then((res) => {
+    });
+    axios.post('/api/get/active', { page: 0 }).then((res) => {
       setActive(res.data.active);
-    })
-  }, [])
+    });
+  }, []);
 
   if (isLogin) {
     return (
@@ -102,7 +101,7 @@ const Index = (props) => {
             {
               (announce || []).map((item, index) => {
                 return (
-                  <Link className="link" to="/student/announce/detail">
+                  <Link className="link" to={{ pathname: "/student/announce/detail", state: { id: item.id } }}>
                     <div className="title" key={index}>
                       {item.title}
                       <Divider className="divider" />
@@ -124,7 +123,7 @@ const Index = (props) => {
             {
               (active || []).map((item, index) => {
                 return (
-                  <Link className="link" to="/student/active/detail">
+                  <Link className="link" to={{ pathname: "/student/active/detail", state: { id: item.id } }}>
                     <div className="title" key={index}>
                       {item.title}
                       <Divider className="divider" />

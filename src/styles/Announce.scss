@@ -1,0 +1,53 @@
+.announceContent {
+  background-color: #f2f2f2;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  .top {
+    background-color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+  }
+
+  .link {
+    text-decoration: none;
+  }
+
+  .link:hover {
+    text-decoration: none;
+  }
+
+  .content {
+    width: 70%;
+  }
+
+  .body {
+    background-color: #fff;
+  }
+
+  .divider {
+    margin: 0;
+    height: 3px;
+  }
+
+  .title {
+    color: black;
+    font-size: 16px;
+    padding-left: 20px;
+    line-height: 32px;
+  }
+
+  .bottom {
+    background-color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+  }
+  .head{
+    padding: 10px 0px;
+  }
+}
