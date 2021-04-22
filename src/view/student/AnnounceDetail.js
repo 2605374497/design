@@ -5,7 +5,6 @@ import '../../styles/AnnounceDetail.scss';
 import {Link} from 'react-router-dom';
 
 const AnnounceDetail = (props) => {
-  console.log(props, '--props');
   const [list, setList] = useState();
   useEffect(() => {
     axios.post('/api/get/announceDetail', { id: props?.location?.state?.id }).then((res) => {

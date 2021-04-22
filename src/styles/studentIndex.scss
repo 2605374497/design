@@ -9,23 +9,28 @@
     align-items: center;
     position: relative;
   }
+
   .logOut {
     position: absolute;
     right: 20px;
   }
-  .drop{
+
+  .drop {
     padding: 10px;
     font-size: 16px;
   }
-  .drop:hover{
+
+  .drop:hover {
     background-color: #eee;
   }
-  .content{
+
+  .content {
     // background-color: white;
     // margin-top: 20px;
     padding: 20px;
   }
-  .message{
+
+  .message {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -34,33 +39,40 @@
     background-color: #fafafa;
     padding: 10px;
   }
-  .announce{
+
+  .announce {
     padding: 20px;
   }
-  .head{
+
+  .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     background-color: #fafafa;
     align-items: center;
   }
-  .title{
+
+  .title {
     color: black;
     font-size: 16px;
     padding-left: 10px;
     line-height: 32px;
   }
-  .more{
+
+  .more {
     color: black;
     font-size: 16px;
   }
-  .divider{
+
+  .divider {
     margin: 0;
   }
-  .link{
+
+  .link {
     text-decoration: none;
   }
-  .link:hover{
+
+  .link:hover {
     text-decoration: none;
   }
 }

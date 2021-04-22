@@ -10,13 +10,11 @@ const Announce = () => {
   let pageSize = 15;
   const onChange = (page) => {
     axios.post('/api/get/announce', { page: page - 1, pageSize: pageSize }).then((res) => {
-      console.log(res, '--res');
       setAnnounce(res.data.announce);
     })
   }
   useEffect(() => {
     axios.post('/api/get/announce', { page: 0, pageSize: pageSize }).then((res) => {
-      console.log(res, '--res');
       setAnnounce(res.data.announce);
       setTotal(res.data.total);
     })

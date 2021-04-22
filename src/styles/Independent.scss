@@ -1,0 +1,53 @@
+.independent {
+  background-color: #f2f2f2;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  .container {
+    width: 70%;
+    // background-color: #fff;
+    padding: 20px;
+  }
+
+  .top {
+    background-color: #fff;
+  }
+
+  .divider {
+    height: 3px;
+    margin: 0;
+  }
+
+  .body {
+    background-color: #fff;
+    padding: 0 20px;
+  }
+
+  .title {
+    color: black;
+    font-size: 16px;
+    line-height: 32px;
+  }
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    width: 100%;
+    font-size: 16px;
+    line-height: 32px;
+  }
+
+  .tag {
+    width: 25%;
+    text-align: center;
+  }
+
+  .bottom {
+    background-color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+  }
+}

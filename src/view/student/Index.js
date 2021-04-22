@@ -4,33 +4,39 @@ import { Menu, Dropdown, Button, Modal, Divider } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
+
 const message = () => {
-  console.log(1111);
+  // console.log(1111);
 }
 
-const query = (
-  <Menu>
-    <Menu.Item onClick={message}>个人信息查询</Menu.Item>
-    <Menu.Item>成绩查询</Menu.Item>
-    <Menu.Item>学生课表查询</Menu.Item>
-    <Menu.Item>重修课程重修</Menu.Item>
-  </Menu>
-);
-const project = (
-  <Menu>
-    <Menu.Item>公选课</Menu.Item>
-    <Menu.Item>
-      <Link className="link" to="/student/chance/independent">自主选课</Link>
-    </Menu.Item>
-  </Menu>
-)
-const Index = (props) => {
+
+const Index = () => {
   const history = useHistory();
   let isLogin = localStorage.getItem('id') || false;
   const logout = () => {
     localStorage.removeItem("id");
     history.push('/');
   }
+  const cource = () => {
+    history.push('/student/chance/course');
+  }
+  const independent = () => {
+    history.push('/student/chance/independent')
+  }
+  const query = (
+    <Menu>
+      <Menu.Item onClick={message}>个人信息查询</Menu.Item>
+      <Menu.Item>成绩查询</Menu.Item>
+      <Menu.Item>学生课表查询</Menu.Item>
+      <Menu.Item>重修课程重修</Menu.Item>
+    </Menu>
+  );
+  const project = (
+    <Menu>
+      <Menu.Item onClick={cource}>公选课</Menu.Item>
+      <Menu.Item onClick={independent}>自主选课</Menu.Item>
+    </Menu>
+  )
   const countDown = () => {
     let secondsToGo = 5;
     const modal = Modal.success({
@@ -55,7 +61,6 @@ const Index = (props) => {
   const [Message, setMessage] = useState();
   const [announce, setAnnounce] = useState();
   const [active, setActive] = useState();
-  // const [page, setPage] = useState(0);
   useEffect(() => {
     axios.get('/api/get/student').then((res) => {
       let data = res?.data?.student;
@@ -103,7 +108,7 @@ const Index = (props) => {
             {
               (announce || []).map((item, index) => {
                 return (
-                  <Link className="link" to={{ pathname: "/student/announce/detail", state: { id: item.id } }}>
+                  <Link key={index} className="link" to={{ pathname: "/student/announce/detail", state: { id: item.id } }}>
                     <div className="title" key={index}>
                       {item.title}
                       <Divider className="divider" />
@@ -125,7 +130,7 @@ const Index = (props) => {
             {
               (active || []).map((item, index) => {
                 return (
-                  <Link className="link" to={{ pathname: "/student/active/detail", state: { id: item.id } }}>
+                  <Link key={index} className="link" to={{ pathname: "/student/active/detail", state: { id: item.id } }}>
                     <div className="title" key={index}>
                       {item.title}
                       <Divider className="divider" />
