@@ -19,7 +19,9 @@ const query = (
 const project = (
   <Menu>
     <Menu.Item>公选课</Menu.Item>
-    <Menu.Item>自主选课</Menu.Item>
+    <Menu.Item>
+      <Link className="link" to="/student/chance/independent">自主选课</Link>
+    </Menu.Item>
   </Menu>
 )
 const Index = (props) => {

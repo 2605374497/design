@@ -1,4 +1,4 @@
-.activeDetail{
+.activeDetail {
   background-color: #eee;
   width: 100vw;
   height: 100vh;
@@ -7,30 +7,53 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  .head{
-    text-align: center;
+
+  .head {
+    padding: 10px 0px;
   }
-  .detail{
+
+  .detail {
     width: 80%;
   }
-  .content{
+
+  .content {
     background-color: #fff;
     font-size: 20px;
     padding: 20px;
     line-height: 20px;
     letter-spacing: 5px;
     height: 100%;
-    white-space:pre-wrap;
+    white-space: pre-wrap;
   }
-  .title{
+
+  .title {
     padding: 20px;
     background-color: #fff;
     font-size: 32px;
     text-align: center;
     color: #ff5000;
   }
-  .divider{
+
+  .divider {
     margin: 0;
     height: 3px;
   }
+
+  .top {
+    background-color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  .link {
+    text-decoration: none;
+  }
+
+  .link:hover {
+    text-decoration: none;
+  }
+
 }
