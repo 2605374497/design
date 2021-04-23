@@ -1,6 +1,6 @@
 .independent {
   background-color: #f2f2f2;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
 
@@ -36,12 +36,29 @@
     background-color: #fff;
     width: 100%;
     font-size: 16px;
-    line-height: 32px;
+    // line-height: 32px;
   }
 
   .tag {
     width: 25%;
     text-align: center;
+  }
+  .total{
+    width: 15%;
+    text-align: center;
+  }
+  .count{
+    width: 15%;
+    text-align: center;
+  }
+  .test{
+    width: 15%;
+    text-align: center;
+  }
+  .item{
+    width: 25%;
+    display: flex;
+    justify-content: center;
   }
 
   .bottom {

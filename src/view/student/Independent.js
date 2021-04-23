@@ -1,24 +1,45 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/Independent.scss';
-import { Divider, Button, Pagination } from 'antd';
+import { Divider, Button, Pagination, Message } from 'antd';
 
 const Independent = () => {
+  // 当前展示页数据
   const [list, setList] = useState();
+  // 当前选课人数
   const [total, setTotal] = useState();
-  // const [page, setPage] = useState(0);
+  // 已选列表
+  const [addList, setAddList] = useState();
+  // 当前展示页
+  const [index, setIndex] = useState(0);
   let pageSize = 15;
+  let sid = localStorage.getItem('id');
   useEffect(() => {
-    axios.post('/api/get/independent', { page: 0, pageSize: pageSize }).then((res) => {
+    axios.post('/api/get/independent', { page: index, pageSize: pageSize }).then((res) => {
       setList(res?.data?.Independent)
       setTotal(res.data.total);
     })
-  }, []);
+  }, [total]);
   const onChange = (page) => {
     axios.post('/api/get/independent', { page: page - 1, pageSize: pageSize }).then((res) => {
       setList(res?.data?.Independent)
       setTotal(res.data.total);
+      setIndex(page - 1);
     })
+  };
+  const addClass = (id) => {
+    axios.post('/api/get/addIndependent', { id: id, sid: sid }).then((res) => {
+      if (res.data.msg == 200) {
+        setAddList(res.data.list);
+        axios.post('/api/get/independent', { page: index, pageSize: pageSize }).then((res) => {
+          setList(res?.data?.Independent)
+          setTotal(res.data.total);
+        });
+      } else {
+        Message.error(res.data.msg, 3)
+      }
+    })
+
   }
   return (
     <div className="independent">
@@ -35,7 +56,6 @@ const Independent = () => {
           <Divider className="divider" />
           {
             (list || []).map((item, index) => {
-              console.log(item, 'item');
               return (
                 <div key={index} className="title">
                   <div className="head">
@@ -46,9 +66,19 @@ const Independent = () => {
                           item.type == 3 ? '社会科学' : '创新创业'
                       }
                     </div>
-                    <div className="tag">{item.total} / {item.count}</div>
+                    <div className="item">
+                      <div className="total">{item.total}</div>
+                      <div className="test">/</div>
+                      <div className="count">{item.count}</div>
+                    </div>
                     <div className="tag">
-                      <Button>选课</Button>
+                      <Button
+                        onClick={() => { addClass(item.id) }}
+                        size="small"
+                        type="primary"
+                        ghost>
+                        选课
+                         </Button>
                     </div>
                   </div>
                   <Divider className="divider" />
@@ -65,6 +95,15 @@ const Independent = () => {
             total={total}
             showQuickJumper={false}
           />
+        </div>
+        <div>
+          {
+            (addList || []).map((item, index) => {
+              return (
+                <div key={index}>{item.id}</div>
+              )
+            })
+          }
         </div>
       </div>
     </div>

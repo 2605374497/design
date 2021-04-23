@@ -12,7 +12,8 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
             'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
-            'major': '通信工程'
+            'major': '通信工程',
+            'independent': [],
         },
         {
             'netID|+1': 17050618101,
@@ -23,7 +24,8 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
             'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
-            'major': '汉语言文学'
+            'major': '汉语言文学',
+            'independent': [],
         },
         {
             'netID|+1': 17050718101,
@@ -34,7 +36,8 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
             'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
-            'major': '音乐表演'
+            'major': '音乐表演',
+            'independent': [],
         },
         {
             'netID|+1': 17050718101,
@@ -45,7 +48,8 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
             'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
-            'major': '经济管理'
+            'major': '经济管理',
+            'independent': [],
         },
     ],
     // 教师信息
@@ -77,7 +81,7 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
             'id|+1': 1,
             'name|+1': ['明史十讲', '考古与人类', '心理学', 'ps', '近现代史', '水务创新', '网络技术'],
             'count': 150,
-            'total': 0,
+            'total|1': [148, 1, 85, 8, 100, 99],
             'type|1': [1, 2, 3, 4]
         }
     ]
@@ -159,7 +163,7 @@ Mock.mock('/api/get/announceDetail', 'post', (req) => {
         list: list
     }
 })
-// 自主选课
+// 自主选课数据
 Mock.mock('/api/get/independent', 'post', (req) => {
     let page = JSON.parse(req.body).page;
     let pageSize = JSON.parse(req.body).pageSize || 5;
@@ -172,5 +176,47 @@ Mock.mock('/api/get/independent', 'post', (req) => {
         msg: '获取数据成功',
         Independent: list,
         total: Independent.length,
+    }
+})
+// 添加自选课程
+Mock.mock('/api/get/addIndependent', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    let list, msg, index;
+    student.map((item, i) => {
+        if (item.netID == sid) {
+            list = item.independent;
+            index = i;
+        }
+    })
+    if (list.length < 2) {
+        Independent.map((item) => {
+            if (item.id == id) {
+                if (item.total < 150) {
+                    if (list.length > 0) {
+                        if (list[0].id == id) {
+                            msg = "不能选择同一门课程"
+                        } else {
+                            list.push(item)
+                            item.total++;
+                            msg = 200;
+                        }
+                    } else {
+                        list.push(item);
+                        item.total++;
+                        msg = 200;
+                    }
+                } else {
+                    msg = "该门课程剩余量为0";
+                }
+            }
+        });
+    } else {
+        msg = '最多可选两门课程'
+    }
+    return {
+        status: 200,
+        msg: msg,
+        list: list
     }
 })
