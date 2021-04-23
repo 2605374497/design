@@ -36,26 +36,35 @@
     background-color: #fff;
     width: 100%;
     font-size: 16px;
-    // line-height: 32px;
+    line-height: 32px;
   }
 
   .tag {
     width: 25%;
     text-align: center;
   }
-  .total{
+
+  .total {
     width: 15%;
     text-align: center;
   }
-  .count{
+
+  .count {
     width: 15%;
     text-align: center;
   }
-  .test{
+
+  .online {
+    font-size: 16px;
+    padding: 5px 0;
+  }
+
+  .test {
     width: 15%;
     text-align: center;
   }
-  .item{
+
+  .item {
     width: 25%;
     display: flex;
     justify-content: center;
@@ -66,5 +75,44 @@
     display: flex;
     justify-content: flex-end;
     padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+
+  .breadcrump {
+    background-color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+  }
+
+  .link {
+    text-decoration: none;
+  }
+
+  .link :hover {
+    text-decoration: none;
+  }
+
+  .classlist {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    width: 100%;
+    font-size: 16px;
+    line-height: 32px;
+  }
+
+  .formitem {
+    margin: 5px 0;
+  }
+
+  .radio {
+    margin-right: 10px;
+  }
+
+  .form {
+    display: flex;
+    justify-content: space-between;
   }
 }

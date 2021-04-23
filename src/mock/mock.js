@@ -220,3 +220,66 @@ Mock.mock('/api/get/addIndependent', 'post', (req) => {
         list: list
     }
 })
+// 获取已选课程
+Mock.mock('/api/get/classlist', 'post', (req) => {
+    let sid = JSON.parse(req.body).sid;
+    let list;
+    student.map((item) => {
+        if (item.netID == sid) {
+            list = item.independent;
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 删除自选课程
+Mock.mock('/api/delete/class', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    let list;
+    (student || []).map((item) => {
+        if (item?.netID == sid) {
+            list = item?.independent;
+            (list || []).map((items, index) => {
+                if (items.id == id) {
+                    list.splice(index, 1);
+                    (Independent || []).map((pro, i) => {
+                        if (pro?.id == id) {
+                            pro.total -= 1;
+                        }
+                    })
+                }
+            })
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 查询自选课程
+Mock.mock('/api/get/search', 'post', (req) => {
+    let type = JSON.parse(req?.body)?.type;
+    let page = JSON.parse(req.body).page;
+    let pageSize = JSON.parse(req.body).pageSize || 5;
+    let list = [], show = [];
+    (Independent || []).map((item) => {
+        if (item?.type == type) {
+            list.push(item);
+        }
+    })
+    for (let i = page * pageSize; i < (page + 1) * pageSize && i < list.length; i++) {
+        show.push(list[i]);
+    }
+    console.log(show);
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: show,
+        total: list.length,
+    }
+})

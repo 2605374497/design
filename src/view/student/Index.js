@@ -28,7 +28,6 @@ const Index = () => {
       <Menu.Item onClick={message}>个人信息查询</Menu.Item>
       <Menu.Item>成绩查询</Menu.Item>
       <Menu.Item>学生课表查询</Menu.Item>
-      <Menu.Item>重修课程重修</Menu.Item>
     </Menu>
   );
   const project = (

@@ -99,19 +99,6 @@ const Login = () => {
             prefix={<UnlockOutlined />}
           />
         </FormItem>
-        {/* <FormItem
-          name="code"
-          rules={[{ required: true, message: '请输入验证码!' }]}
-        >
-          <Row gutter={13}>
-            <Col span={15}>
-              <Input placeholder="请输入验证码" prefix={<UnlockOutlined />} />
-            </Col>
-            <Col span={6}>
-              <Button danger type="primary">获取验证码</Button>
-            </Col>
-          </Row>
-        </FormItem> */}
         <FormItem
           name="select"
           rules={[{ required: true, message: '请选择账号类型!' }]}

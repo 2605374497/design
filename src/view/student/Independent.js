@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/Independent.scss';
-import { Divider, Button, Pagination, Message } from 'antd';
+import { Divider, Button, Pagination, Message, Breadcrumb, Form, Radio } from 'antd';
+import { Link } from 'react-router-dom';
+import { SearchOutlined } from '@ant-design/icons';
 
 const Independent = () => {
   // 当前展示页数据
@@ -19,10 +21,13 @@ const Independent = () => {
       setList(res?.data?.Independent)
       setTotal(res.data.total);
     })
-  }, [total]);
+    axios.post('/api/get/classlist', { sid: sid }).then((res) => {
+      setAddList(res.data.list);
+    })
+  }, [total, addList]);
   const onChange = (page) => {
     axios.post('/api/get/independent', { page: page - 1, pageSize: pageSize }).then((res) => {
-      setList(res?.data?.Independent)
+      setList(res?.data?.Independent);
       setTotal(res.data.total);
       setIndex(page - 1);
     })
@@ -39,13 +44,60 @@ const Independent = () => {
         Message.error(res.data.msg, 3)
       }
     })
-
+  }
+  const deleteClass = (id) => {
+    axios.post('/api/delete/class', { sid: sid, id: id }).then((res) => {
+      return res?.data?.status;
+    })
+  }
+  const search = (values) => {
+    axios.post('/api/get/search', { type: values?.type, page: index, pageSize: pageSize }).then((res) => {
+      setList(res.data.list);
+      setTotal(res.data.total);
+    })
   }
   return (
     <div className="independent">
       <div className="container">
-        <div className="top">选课</div>
+        <div className="breadcrump">
+          <div className="online">当前栏目:</div>
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <Link to='/student/index' className="link">首页</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/student/chance/independent" className="link">自主选课</Link>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
         <Divider className="divider" />
+        {/* <Form
+          className="form"
+          onFinish={search}
+        >
+          <Form.Item
+            name="type"
+            className="formitem"
+          >
+            <Radio.Group name="radiogroup">
+              <Radio.Button value="1" className="radio">自然科学</Radio.Button>
+              <Radio.Button value="2" className="radio">文学艺术</Radio.Button>
+              <Radio.Button value="3" className="radio">社会科学</Radio.Button>
+              <Radio.Button value="4" className="radio">创新创业</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item className="formitem">
+            <Button
+              type="primary"
+              icon={<SearchOutlined />}
+              htmlType="submit"
+              block
+            >
+              查询
+            </Button>
+          </Form.Item>
+        </Form>
+        <Divider className="divider" /> */}
         <div className="body">
           <div className="head">
             <div className="tag">课程</div>
@@ -76,9 +128,10 @@ const Independent = () => {
                         onClick={() => { addClass(item.id) }}
                         size="small"
                         type="primary"
-                        ghost>
+                        ghost
+                      >
                         选课
-                         </Button>
+                      </Button>
                     </div>
                   </div>
                   <Divider className="divider" />
@@ -97,10 +150,37 @@ const Independent = () => {
           />
         </div>
         <div>
+          <div className="head">
+            <div className="tag">课程</div>
+            <div className="tag">类别</div>
+            <div className="tag">操作</div>
+          </div>
+          <Divider className="divider" />
           {
             (addList || []).map((item, index) => {
               return (
-                <div key={index}>{item.id}</div>
+                <div key={index}>
+                  <div className="classlist">
+                    <div className="tag">{item.name}</div>
+                    <div className="tag">
+                      {item.type == 1 ? '自然科学' :
+                        item.type == 2 ? '文学艺术' :
+                          item.type == 3 ? '社会科学' : '创新创业'
+                      }
+                    </div>
+                    <div className="tag">
+                      <Button
+                        onClick={() => { deleteClass(item.id) }}
+                        size="small"
+                        type="primary"
+                        ghost
+                      >
+                        退选
+                    </Button>
+                    </div>
+                  </div>
+                  <Divider className="divider" />
+                </div>
               )
             })
           }
