@@ -14,19 +14,21 @@ const Independent = () => {
   const [addList, setAddList] = useState();
   // 当前展示页
   const [index, setIndex] = useState(0);
+  // 当前展示类型
+  const [type, setType] = useState(0);
   let pageSize = 15;
   let sid = localStorage.getItem('id');
   useEffect(() => {
-    axios.post('/api/get/independent', { page: index, pageSize: pageSize }).then((res) => {
+    axios.post('/api/get/independent', { page: index, pageSize: pageSize, type: type }).then((res) => {
       setList(res?.data?.Independent)
       setTotal(res.data.total);
     })
     axios.post('/api/get/classlist', { sid: sid }).then((res) => {
       setAddList(res.data.list);
     })
-  }, [total, addList]);
+  }, []);
   const onChange = (page) => {
-    axios.post('/api/get/independent', { page: page - 1, pageSize: pageSize }).then((res) => {
+    axios.post('/api/get/independent', { page: page - 1, pageSize: pageSize, type: type }).then((res) => {
       setList(res?.data?.Independent);
       setTotal(res.data.total);
       setIndex(page - 1);
@@ -36,7 +38,7 @@ const Independent = () => {
     axios.post('/api/get/addIndependent', { id: id, sid: sid }).then((res) => {
       if (res.data.msg == 200) {
         setAddList(res.data.list);
-        axios.post('/api/get/independent', { page: index, pageSize: pageSize }).then((res) => {
+        axios.post('/api/get/independent', { page: index, pageSize: pageSize, type: type }).then((res) => {
           setList(res?.data?.Independent)
           setTotal(res.data.total);
         });
@@ -47,13 +49,15 @@ const Independent = () => {
   }
   const deleteClass = (id) => {
     axios.post('/api/delete/class', { sid: sid, id: id }).then((res) => {
-      return res?.data?.status;
+      setAddList(res.data.list);
     })
   }
   const search = (values) => {
-    axios.post('/api/get/search', { type: values?.type, page: index, pageSize: pageSize }).then((res) => {
+    axios.post('/api/get/search', { type: values?.type, page: 0, pageSize: pageSize }).then((res) => {
       setList(res.data.list);
       setTotal(res.data.total);
+      setType(values.type);
+      setIndex(0);
     })
   }
   return (
@@ -71,15 +75,17 @@ const Independent = () => {
           </Breadcrumb>
         </div>
         <Divider className="divider" />
-        {/* <Form
+        <Form
           className="form"
           onFinish={search}
         >
           <Form.Item
             name="type"
             className="formitem"
+            initialValue="0"
           >
             <Radio.Group name="radiogroup">
+              <Radio.Button value="0" className="radio">全部</Radio.Button>
               <Radio.Button value="1" className="radio">自然科学</Radio.Button>
               <Radio.Button value="2" className="radio">文学艺术</Radio.Button>
               <Radio.Button value="3" className="radio">社会科学</Radio.Button>
@@ -97,7 +103,7 @@ const Independent = () => {
             </Button>
           </Form.Item>
         </Form>
-        <Divider className="divider" /> */}
+        <Divider className="divider" />
         <div className="body">
           <div className="head">
             <div className="tag">课程</div>
@@ -142,6 +148,7 @@ const Independent = () => {
         </div>
         <div className="bottom">
           <Pagination
+            current={index + 1}
             defaultCurrent={1}
             pageSize={pageSize}
             onChange={(page) => { onChange(page) }}

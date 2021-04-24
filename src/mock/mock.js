@@ -89,8 +89,8 @@ const { student, active, teacher, announce, Independent, Course } = Mock.mock({
         {
             'id|+1': 1,
             'name|+1': ['明史十讲', '考古与人类', '心理学', 'ps', '近现代史', '水务创新', '网络技术'],
-            'bulid|1':['教学楼','逸夫楼','二教楼'],
-            'address|+1':[101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116],
+            'bulid|1': ['教学楼', '逸夫楼', '二教楼'],
+            'address|+1': [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116],
             'count': 150,
             'total|1': [148, 1, 85, 8, 100, 99],
             'type|1': [1, 2, 3, 4]
@@ -178,15 +178,25 @@ Mock.mock('/api/get/announceDetail', 'post', (req) => {
 Mock.mock('/api/get/independent', 'post', (req) => {
     let page = JSON.parse(req.body).page;
     let pageSize = JSON.parse(req.body).pageSize || 5;
-    let list = [];
-    for (let i = page * pageSize; i < (page + 1) * pageSize && i < Independent.length; i++) {
-        list.push(Independent[i]);
+    let type = JSON.parse(req.body).type || 0;
+    let data = [], list = [];
+    if (type == 0) {
+        data = Independent;
+    } else {
+        Independent.map((item) => {
+            if (item.type == type) {
+                data.push(item);
+            }
+        })
+    }
+    for (let i = page * pageSize; i < (page + 1) * pageSize && i < data.length; i++) {
+        list.push(data[i]);
     }
     return {
         status: 200,
         msg: '获取数据成功',
         Independent: list,
-        total: Independent.length,
+        total: data.length,
     }
 })
 // 添加自选课程
@@ -274,24 +284,28 @@ Mock.mock('/api/delete/class', 'post', (req) => {
 })
 // 查询自选课程
 Mock.mock('/api/get/search', 'post', (req) => {
-    let type = JSON.parse(req?.body)?.type;
+    let type = JSON.parse(req?.body)?.type || 0;
     let page = JSON.parse(req.body).page;
     let pageSize = JSON.parse(req.body).pageSize || 5;
     let list = [], show = [];
-    (Independent || []).map((item) => {
-        if (item?.type == type) {
-            list.push(item);
-        }
-    })
-    for (let i = page * pageSize; i < (page + 1) * pageSize && i < list.length; i++) {
-        show.push(list[i]);
+    if (type == 0) {
+        show = Independent;
+    } else {
+        Independent.map((item) => {
+            if (item.type == type) {
+                show.push(item);
+            }
+        })
+    }
+    for (let i = page * pageSize; i < (page + 1) * pageSize && i < show.length; i++) {
+        list.push(show[i]);
     }
     console.log(show);
     return {
         status: 200,
         msg: '获取数据成功',
-        list: show,
-        total: list.length,
+        list: list,
+        total: show.length,
     }
 })
 // 公选课数据

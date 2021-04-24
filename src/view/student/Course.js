@@ -144,7 +144,7 @@ const Course = () => {
             ghost
            >
             选课
-                      </Button>
+           </Button>
           </div>
          </div>
          <Divider className="divider" />
@@ -191,7 +191,7 @@ const Course = () => {
             ghost
            >
             退选
-                    </Button>
+           </Button>
           </div>
          </div>
          <Divider className="divider" />
