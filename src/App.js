@@ -7,12 +7,14 @@ import Active from './view/student/Active';
 import AnnounceDetail from './view/student/AnnounceDetail';
 import ActiveDetail from './view/student/ActiveDetail';
 import Independent from './view/student/Independent';
+import Course from './view/student/Course';
 
 function App() {
   return (
     <Router>
       <Switch>
-      <Route component={Independent} path='/student/chance/independent'></Route>
+        <Route component={Course} path='/student/chance/course'></Route>
+        <Route component={Independent} path='/student/chance/independent'></Route>
         <Route component={ActiveDetail} path='/student/active/detail'></Route>
         <Route component={AnnounceDetail} path='/student/announce/detail'></Route>
         <Route component={Active} path='/student/active'></Route>

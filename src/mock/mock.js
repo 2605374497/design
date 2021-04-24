@@ -1,6 +1,6 @@
 import Mock from 'mockjs';
 
-const { student, active, teacher, announce, Independent } = Mock.mock({
+const { student, active, teacher, announce, Independent, Course } = Mock.mock({
     // 学生信息
     'student|25': [
         {
@@ -8,48 +8,48 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
             'name': '@cname',
             'address': '@city',
             'belong': '数计学院',
-            'test': '@cparagraph',
-            'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
             'major': '通信工程',
             'independent': [],
+            'phone': '@phone',
+            'course': [],
         },
         {
             'netID|+1': 17050618101,
             'name': '@cname',
             'address': '@city',
             'belong': '文传学院',
-            'test': '@cparagraph',
-            'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
             'major': '汉语言文学',
             'independent': [],
+            'phone': '@phone',
+            'course': [],
         },
         {
             'netID|+1': 17050718101,
             'name': '@cname',
             'address': '@city',
             'belong': '音舞学院',
-            'test': '@cparagraph',
-            'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
             'major': '音乐表演',
             'independent': [],
+            'phone': '@phone',
+            'course': [],
         },
         {
             'netID|+1': 17050718101,
             'name': '@cname',
             'address': '@city',
             'belong': '音舞学院',
-            'test': '@cparagraph',
-            'brithday': '20@date("yy-MM-dd")',
             'age|18-22': 20,
             'password': 'student',
             'major': '经济管理',
             'independent': [],
+            'phone': '@phone',
+            'course': [],
         },
     ],
     // 教师信息
@@ -80,6 +80,17 @@ const { student, active, teacher, announce, Independent } = Mock.mock({
         {
             'id|+1': 1,
             'name|+1': ['明史十讲', '考古与人类', '心理学', 'ps', '近现代史', '水务创新', '网络技术'],
+            'count': 150,
+            'total|1': [148, 1, 85, 8, 100, 99],
+            'type|1': [1, 2, 3, 4]
+        }
+    ],
+    'Course|150': [
+        {
+            'id|+1': 1,
+            'name|+1': ['明史十讲', '考古与人类', '心理学', 'ps', '近现代史', '水务创新', '网络技术'],
+            'bulid|1':['教学楼','逸夫楼','二教楼'],
+            'address|+1':[101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116],
             'count': 150,
             'total|1': [148, 1, 85, 8, 100, 99],
             'type|1': [1, 2, 3, 4]
@@ -281,5 +292,93 @@ Mock.mock('/api/get/search', 'post', (req) => {
         msg: '获取数据成功',
         list: show,
         total: list.length,
+    }
+})
+// 公选课数据
+Mock.mock('/api/get/course', 'post', (req) => {
+    let page = JSON.parse(req.body).page;
+    let pageSize = JSON.parse(req.body).pageSize || 5;
+    let list = [];
+    for (let i = page * pageSize; i < (page + 1) * pageSize && i < Course.length; i++) {
+        list.push(Course[i]);
+    }
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        Course: list,
+        total: Course.length,
+    }
+})
+// 添加公选课程
+Mock.mock('/api/get/addCourse', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    let list, msg, index;
+    student.map((item, i) => {
+        if (item.netID == sid) {
+            list = item.course;
+            index = i;
+        }
+    })
+    if (list.length < 1) {
+        Course.map((item) => {
+            if (item.id == id) {
+                if (item.total < 150) {
+                    list.push(item);
+                    item.total++;
+                    msg = 200;
+                } else {
+                    msg = "该门课程剩余量为0";
+                }
+            }
+        });
+    } else {
+        msg = '已选择课程'
+    }
+    return {
+        status: 200,
+        msg: msg,
+        list: list
+    }
+})
+// 获取已选公选课程
+Mock.mock('/api/get/courselist', 'post', (req) => {
+    let sid = JSON.parse(req.body).sid;
+    let list;
+    student.map((item) => {
+        if (item.netID == sid) {
+            list = item.course;
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 删除公选课程
+Mock.mock('/api/delete/course', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    let list;
+    (student || []).map((item) => {
+        if (item?.netID == sid) {
+            list = item?.course;
+            (list || []).map((items, index) => {
+                if (items.id == id) {
+                    list.splice(index, 1);
+                    (Course || []).map((pro, i) => {
+                        if (pro?.id == id) {
+                            pro.total -= 1;
+                        }
+                    })
+                }
+            })
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
     }
 })
