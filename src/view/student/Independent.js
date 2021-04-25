@@ -4,6 +4,7 @@ import '../../styles/Independent.scss';
 import { Divider, Button, Pagination, Message, Breadcrumb, Form, Radio } from 'antd';
 import { Link } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
+import CountDown from '../public/countdown';
 
 const Independent = () => {
   // 当前展示页数据
@@ -63,6 +64,7 @@ const Independent = () => {
   return (
     <div className="independent">
       <div className="container">
+        {/* <CountDown endtime='2020-4-26 21/12/23' /> */}
         <div className="breadcrump">
           <div className="online">当前栏目:</div>
           <Breadcrumb>

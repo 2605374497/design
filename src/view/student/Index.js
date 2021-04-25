@@ -4,6 +4,7 @@ import { Menu, Dropdown, Button, Modal, Divider } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
+import CountDown from '../public/countdown'
 
 const message = () => {
   // console.log(1111);
@@ -36,27 +37,7 @@ const Index = () => {
       <Menu.Item onClick={independent}>自主选课</Menu.Item>
     </Menu>
   )
-  const countDown = () => {
-    let secondsToGo = 5;
-    const modal = Modal.success({
-      title: '您还未登录，请登录后访问！',
-      content: ` ${secondsToGo} 秒后返回登录界面`,
-    });
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      if (secondsToGo) {
-        modal.update({
-          content: ` ${secondsToGo}  秒后返回登录界面`,
-        });
-      } else {
-        history.push('/');
-      }
-    }, 1000);
-    setTimeout(() => {
-      clearInterval(timer);
-      modal.destroy();
-    }, secondsToGo * 1000);
-  };
+ 
   const [Message, setMessage] = useState();
   const [announce, setAnnounce] = useState();
   const [active, setActive] = useState();
@@ -143,7 +124,7 @@ const Index = () => {
       </div>
     );
   } else {
-    countDown();
+    CountDown();
     return null
   }
 }

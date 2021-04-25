@@ -1,6 +1,8 @@
 import Mock from 'mockjs';
 
-const { student, active, teacher, announce, Independent, Course } = Mock.mock({
+const {Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
+    // 选课时间
+    'Time': new Date('2021/4/25 23:21:21'),
     // 学生信息
     'student|25': [
         {
@@ -394,5 +396,13 @@ Mock.mock('/api/delete/course', 'post', (req) => {
         status: 200,
         msg: '获取数据成功',
         list: list
+    }
+})
+// 获取选课时间
+Mock.mock('/api/get/time','get',(req)=>{
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        time: Time
     }
 })
