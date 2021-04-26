@@ -38,7 +38,7 @@ const Login = () => {
           }
         };
       });
-    } else {
+    } else if (values.select === 'teacher') {
       axios.get("/api/get/teacher").then((res) => {
         const data = res?.data?.teacher;
         for (let index = 0; index < data.length; index++) {
@@ -64,6 +64,30 @@ const Login = () => {
             }
           }
         };
+      });
+    } else {
+      axios.get("/api/get/admin").then((res) => {
+        const data = res?.data?.admin;
+        if (values.netID == data.netID && values.password == data.password) {
+          localStorage.setItem('id', values.netID);
+          history.push({
+            pathname: '/admin/index',
+          });
+          return;
+        } else {
+          let secondsToGo = 3;
+          const modal = Modal.error({
+            content: `用户名或密码错误`,
+            centered: true,
+            footer: false,
+            okText: '确定'
+          });
+          modal.footer = null;
+          setTimeout(() => {
+            modal.destroy();
+          }, secondsToGo * 1000);
+        };
+        console.log(res);
       });
     }
   };
@@ -107,6 +131,7 @@ const Login = () => {
           <Radio.Group value="student" className="radio" name="radiogroup">
             <Radio value="student" className="radio">学生</Radio>
             <Radio value="teacher" className="radio">教师</Radio>
+            <Radio value="admin" className="radio">管理员</Radio>
           </Radio.Group>
         </FormItem>
         <FormItem>

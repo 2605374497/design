@@ -148,7 +148,7 @@ const Independent = () => {
                       }
                     </div>
                     <div className="item">
-                      <div className="total">{item.total}</div>
+                      <div className="count">{item.total}</div>
                       <div className="test">/</div>
                       <div className="count">{item.count}</div>
                     </div>
@@ -170,6 +170,7 @@ const Independent = () => {
           }
         </div>
         <div className="bottom">
+          <div className="total">共有 {total} 条数据</div>
           <Pagination
             current={index + 1}
             defaultCurrent={1}

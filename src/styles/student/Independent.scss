@@ -53,8 +53,8 @@
   }
 
   .total {
-    width: 15%;
-    text-align: center;
+    font-size: 16px;
+    color: red;
   }
 
   .count {
@@ -81,7 +81,8 @@
   .bottom {
     background-color: #fff;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
     margin-bottom: 20px;
   }

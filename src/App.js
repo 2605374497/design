@@ -9,12 +9,14 @@ import ActiveDetail from './view/student/ActiveDetail';
 import Independent from './view/student/Independent';
 import Course from './view/student/Course';
 import TeacherIndex from './view/teacher/Index';
+import AdminIndex from './view/admin/Index';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route component={TeacherIndex} path='/teacher/index'></Route>
+        <Route component={AdminIndex} path='/admin/index'></Route>
         <Route component={Course} path='/student/chance/course'></Route>
         <Route component={Independent} path='/student/chance/independent'></Route>
         <Route component={ActiveDetail} path='/student/active/detail'></Route>
