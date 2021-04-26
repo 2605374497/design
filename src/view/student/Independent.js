@@ -4,7 +4,7 @@ import '../../styles/Independent.scss';
 import { Divider, Button, Pagination, Message, Breadcrumb, Form, Radio } from 'antd';
 import { Link } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
-import CountDown from '../public/countdown';
+import Method from '../public/unit';
 
 const Independent = () => {
   // 当前展示页数据
@@ -17,6 +17,10 @@ const Independent = () => {
   const [index, setIndex] = useState(0);
   // 当前展示类型
   const [type, setType] = useState(0);
+  // 截至时间
+  const [time, setTime] = useState();
+  // 是否超过截至时间
+  const [bool, setBool] = useState();
   let pageSize = 15;
   let sid = localStorage.getItem('id');
   useEffect(() => {
@@ -27,6 +31,14 @@ const Independent = () => {
     axios.post('/api/get/classlist', { sid: sid }).then((res) => {
       setAddList(res.data.list);
     })
+    axios.get('/api/get/time').then((res) => {
+      let date = new Date(res.data.time);
+      let data = Method.getDate(date);
+      setTime(data.time);
+      let state = data.state > 0 ? true : false;
+      setBool(state);
+      console.log(state);
+    })
   }, []);
   const onChange = (page) => {
     axios.post('/api/get/independent', { page: page - 1, pageSize: pageSize, type: type }).then((res) => {
@@ -36,22 +48,30 @@ const Independent = () => {
     })
   };
   const addClass = (id) => {
-    axios.post('/api/get/addIndependent', { id: id, sid: sid }).then((res) => {
-      if (res.data.msg == 200) {
-        setAddList(res.data.list);
-        axios.post('/api/get/independent', { page: index, pageSize: pageSize, type: type }).then((res) => {
-          setList(res?.data?.Independent)
-          setTotal(res.data.total);
-        });
-      } else {
-        Message.error(res.data.msg, 3)
-      }
-    })
+    if (bool) {
+      axios.post('/api/get/addIndependent', { id: id, sid: sid }).then((res) => {
+        if (res.data.msg == 200) {
+          setAddList(res.data.list);
+          axios.post('/api/get/independent', { page: index, pageSize: pageSize, type: type }).then((res) => {
+            setList(res?.data?.Independent)
+            setTotal(res.data.total);
+          });
+        } else {
+          Message.error(res.data.msg, 3)
+        }
+      })
+    } else {
+      Message.error('当前不在选课时间范围', 3);
+    }
   }
   const deleteClass = (id) => {
-    axios.post('/api/delete/class', { sid: sid, id: id }).then((res) => {
-      setAddList(res.data.list);
-    })
+    if (bool) {
+      axios.post('/api/delete/class', { sid: sid, id: id }).then((res) => {
+        setAddList(res.data.list);
+      })
+    } else {
+      Message.error('当前不在选课时间范围', 3);
+    }
   }
   const search = (values) => {
     axios.post('/api/get/search', { type: values?.type, page: 0, pageSize: pageSize }).then((res) => {
@@ -64,7 +84,8 @@ const Independent = () => {
   return (
     <div className="independent">
       <div className="container">
-        {/* <CountDown endtime='2020-4-26 21/12/23' /> */}
+        <div className="time">选课截至时间：{time}</div>
+        <Divider className="divider" />
         <div className="breadcrump">
           <div className="online">当前栏目:</div>
           <Breadcrumb>

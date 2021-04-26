@@ -2,7 +2,7 @@ import Mock from 'mockjs';
 
 const {Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
     // 选课时间
-    'Time': new Date('2021/4/25 23:21:21'),
+    'Time': new Date('2021/4/26 23:21:21'),
     // 学生信息
     'student|25': [
         {
@@ -302,7 +302,6 @@ Mock.mock('/api/get/search', 'post', (req) => {
     for (let i = page * pageSize; i < (page + 1) * pageSize && i < show.length; i++) {
         list.push(show[i]);
     }
-    console.log(show);
     return {
         status: 200,
         msg: '获取数据成功',

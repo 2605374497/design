@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../../styles/studentIndex.scss';
-import { Menu, Dropdown, Button, Modal, Divider } from 'antd';
+import { Menu, Dropdown, Button, Divider } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';

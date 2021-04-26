@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 const CountDown = (props) => {
   const history = useHistory();
   let secondsToGo = 3;
-  const modal = Modal.success({
+  const modal = Modal.error({
     title: '您还未登录，请登录后访问！',
     content: ` ${secondsToGo} 秒后返回登录界面`,
   });

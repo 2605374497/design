@@ -9,12 +9,12 @@ ReactDOM.render(
     <App />
   </React.StrictMode>,
   document.getElementById('root'),
-  window.onbeforeunload = function () {
-    return '是否确定离开当前页面'
-  },
-  window.onunload = function () {
-    localStorage.removeItem('id');
-  }
+  // window.onbeforeunload = function () {
+  //   return true
+  // },
+  // window.onunload = function () {
+  //   localStorage.removeItem('id');
+  // }
 );
 
 // If you want to start measuring performance in your app, pass a function
