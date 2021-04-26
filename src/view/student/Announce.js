@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../styles/Announce.scss';
+import '../../styles/student/Announce.scss';
 import { Breadcrumb, Divider, Pagination } from 'antd';
 import { Link } from 'react-router-dom';
 

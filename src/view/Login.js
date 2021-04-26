@@ -40,7 +40,6 @@ const Login = () => {
       });
     } else {
       axios.get("/api/get/teacher").then((res) => {
-        // console.log(res, '---teacher');
         const data = res?.data?.teacher;
         data.every((item, index) => {
           if (values.netID == item.netID && values.password == item.password) {

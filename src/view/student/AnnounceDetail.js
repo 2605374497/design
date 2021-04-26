@@ -1,7 +1,7 @@
 import axios from 'axios';
 import react, { useEffect, useState } from 'react';
 import { Divider,Breadcrumb } from 'antd';
-import '../../styles/AnnounceDetail.scss';
+import '../../styles/student/AnnounceDetail.scss';
 import {Link} from 'react-router-dom';
 
 const AnnounceDetail = (props) => {

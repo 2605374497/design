@@ -58,7 +58,9 @@ const {Time, student, active, teacher, announce, Independent, Course } = Mock.mo
     'teacher|10': [
         {
             'netID|+1': 111111,
-            'password': 'admin'
+            'password': 'admin',
+            'name': '@cname',
+            'belong|1': ['音舞学院','数计学院','医学院','文传学院','体育学院'],
         }
     ],
     // 通知公告

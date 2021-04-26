@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../styles/Independent.scss';
+import '../../styles/student/Independent.scss';
 import { Divider, Button, Pagination, Message, Breadcrumb, Form, Radio } from 'antd';
 import { Link } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';

@@ -2,7 +2,7 @@ import axios from 'axios';
 import react, { useEffect, useState } from 'react';
 import { Divider, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import '../../styles/ActiveDetail.scss'
+import '../../styles/student/ActiveDetail.scss'
 
 const ActiveDetail = (props) => {
   const [list, setList] = useState();

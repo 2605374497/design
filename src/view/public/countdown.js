@@ -1,4 +1,3 @@
-import '../../styles/CountDown.scss';
 import { Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
 

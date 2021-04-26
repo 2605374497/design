@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import '../../styles/student/studentIndex.scss';
+import '../../styles/teacher/Index.scss';
 import { Menu, Dropdown, Button, Divider } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useHistory, Link } from 'react-router-dom';
@@ -37,7 +37,7 @@ const Index = () => {
       <Menu.Item onClick={independent}>自主选课</Menu.Item>
     </Menu>
   )
-
+ 
   const [Message, setMessage] = useState();
   const [announce, setAnnounce] = useState();
   const [active, setActive] = useState();
