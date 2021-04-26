@@ -1,6 +1,6 @@
 import Mock from 'mockjs';
 
-const {Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
+const { Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
     // 选课时间
     'Time': new Date('2021/4/26 23:21:21'),
     // 学生信息
@@ -60,7 +60,9 @@ const {Time, student, active, teacher, announce, Independent, Course } = Mock.mo
             'netID|+1': 111111,
             'password': 'admin',
             'name': '@cname',
-            'belong|1': ['音舞学院','数计学院','医学院','文传学院','体育学院'],
+            'age|30-55': 20,
+            'project': [],
+            'belong|1': ['音舞学院', '数计学院', '医学院', '文传学院', '体育学院'],
         }
     ],
     // 通知公告
@@ -400,7 +402,7 @@ Mock.mock('/api/delete/course', 'post', (req) => {
     }
 })
 // 获取选课时间
-Mock.mock('/api/get/time','get',(req)=>{
+Mock.mock('/api/get/time', 'get', (req) => {
     return {
         status: 200,
         msg: '获取数据成功',

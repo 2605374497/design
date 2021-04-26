@@ -6,10 +6,6 @@ import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 import CountDown from '../public/countdown'
 
-const message = () => {
-  // console.log(1111);
-}
-
 
 const Index = () => {
   const history = useHistory();
@@ -18,32 +14,13 @@ const Index = () => {
     localStorage.removeItem("id");
     history.push('/');
   }
-  const cource = () => {
-    history.push('/student/chance/course');
-  }
-  const independent = () => {
-    history.push('/student/chance/independent')
-  }
-  const query = (
-    <Menu>
-      <Menu.Item onClick={message}>个人信息查询</Menu.Item>
-      <Menu.Item>成绩查询</Menu.Item>
-      <Menu.Item>学生课表查询</Menu.Item>
-    </Menu>
-  );
-  const project = (
-    <Menu>
-      <Menu.Item onClick={cource}>公选课</Menu.Item>
-      <Menu.Item onClick={independent}>自主选课</Menu.Item>
-    </Menu>
-  )
- 
   const [Message, setMessage] = useState();
   const [announce, setAnnounce] = useState();
   const [active, setActive] = useState();
   useEffect(() => {
-    axios.get('/api/get/student').then((res) => {
-      let data = res?.data?.student;
+    axios.get('/api/get/teacher').then((res) => {
+      let data = res?.data?.teacher;
+      console.log(data);
       for (let i = 0; i < data.length; i++) {
         if (isLogin == data[i].netID) {
           setMessage(data[i]);
@@ -62,19 +39,22 @@ const Index = () => {
     return (
       <div className="studentIndex">
         <div className="top">
-          <Dropdown arrow overlay={query}>
-            <div className="drop">信息查询<DownOutlined /></div>
-          </Dropdown>
-          <Dropdown arrow overlay={project}>
-            <div className="drop">选课<DownOutlined /></div>
-          </Dropdown>
+          <Link to="/teacher/message" className="link">
+            <div className="drop">信息查询</div>
+          </Link>
+          <Link to="/teacher/class" className="link">
+            <div className="drop">课程查询</div>
+          </Link>
+          <Link to="/teacher/active" className="link">
+            <div className="drop">教研信息查询</div>
+          </Link>
           <Button type="text" className="logOut" onClick={logout}>退出</Button>
         </div>
         <div className="content">
           <div className="message">
-            <div>学号：{Message?.netID}</div>
-            <div>专业：{Message?.major}</div>
             <div>姓名：{Message?.name}</div>
+            <div>年龄：{Message?.age}</div>
+            <div>院系：{Message?.belong}</div>
           </div>
         </div>
         <div className="announce">

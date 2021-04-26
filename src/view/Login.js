@@ -41,11 +41,13 @@ const Login = () => {
     } else {
       axios.get("/api/get/teacher").then((res) => {
         const data = res?.data?.teacher;
-        data.every((item, index) => {
-          if (values.netID == item.netID && values.password == item.password) {
+        for (let index = 0; index < data.length; index++) {
+          if (values.netID == data[index].netID && values.password == data[index].password) {
             localStorage.setItem('id', values.netID);
-            history.push('/teacher/index');
-            return false;
+            history.push({
+              pathname: '/teacher/index',
+            });
+            return;
           } else {
             if (index === data.length - 1) {
               let secondsToGo = 3;
@@ -61,8 +63,7 @@ const Login = () => {
               }, secondsToGo * 1000);
             }
           }
-          return null;
-        })
+        };
       });
     }
   };
