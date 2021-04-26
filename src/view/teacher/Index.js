@@ -46,7 +46,7 @@ const Index = () => {
             <div className="drop">课程查询</div>
           </Link>
           <Link to="/teacher/active" className="link">
-            <div className="drop">教研信息查询</div>
+            <div className="drop">教研信息</div>
           </Link>
           <Button type="text" className="logOut" onClick={logout}>退出</Button>
         </div>

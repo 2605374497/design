@@ -33,8 +33,8 @@ const Index = () => {
   );
   const project = (
     <Menu>
-      <Menu.Item onClick={cource}>公选课</Menu.Item>
-      <Menu.Item onClick={independent}>自主选课</Menu.Item>
+      <Menu.Item onClick={independent}>公选课</Menu.Item>
+      <Menu.Item onClick={cource}>自主选课</Menu.Item>
     </Menu>
   )
 

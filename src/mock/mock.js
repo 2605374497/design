@@ -58,7 +58,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
     'teacher|10': [
         {
             'netID|+1': 111111,
-            'password': 'admin',
+            'password': 'teacher',
             'name': '@cname',
             'age|30-55': 20,
             'project': [],
