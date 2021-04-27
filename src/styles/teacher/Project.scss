@@ -45,14 +45,44 @@
     padding: 10px 5px;
     font-size: 16px;
   }
-  .divider{
+
+  .divider {
     margin: 0;
     height: 3px;
   }
-  .empty{
+
+  .empty {
     padding: 10px 0;
     background-color: #fff;
     text-align: center;
     font-size: 16px;
+  }
+}
+
+.form {
+  width: 100%;
+  margin-top: 30px;
+
+  .form-btn {
+    display: flex;
+    justify-content: center;
+  }
+
+  .next {
+    width: 100%;
+  }
+
+  .prev-btn {
+    width: 45%;
+    margin-right: 10%;
+  }
+
+  .next-btn {
+    width: 45%;
+  }
+
+  .Icon {
+    width: 100px;
+    height: 100px;
   }
 }

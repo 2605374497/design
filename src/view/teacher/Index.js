@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../../styles/teacher/Index.scss';
-import { Menu, Dropdown, Button, Divider } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Button, Divider } from 'antd';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 import CountDown from '../public/countdown'
@@ -20,7 +19,6 @@ const Index = () => {
   useEffect(() => {
     axios.get('/api/get/teacher').then((res) => {
       let data = res?.data?.teacher;
-      console.log(data);
       for (let i = 0; i < data.length; i++) {
         if (isLogin == data[i].netID) {
           setMessage(data[i]);

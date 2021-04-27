@@ -7,6 +7,7 @@ const CountDown = (props) => {
   const modal = Modal.error({
     title: '您还未登录，请登录后访问！',
     content: ` ${secondsToGo} 秒后返回登录界面`,
+    footer: [],
   });
   const timer = setInterval(() => {
     secondsToGo -= 1;

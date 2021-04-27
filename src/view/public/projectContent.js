@@ -18,7 +18,9 @@ const ProjectContent = (props) => {
       <Divider className="divider" />
       <div>
         {
-          project.length > 0 ? null :  <div className="empty">课程为空</div>
+          project.length > 0 ? 
+          <div className="empty">{project[0].name}</div>
+           : <div className="empty">课程为空</div>
         }
       </div>
     </div>
