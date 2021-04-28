@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import ProjectContent from '../public/projectContent';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input } from 'antd';
+import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input, DatePicker } from 'antd';
 import { CheckCircleTwoTone } from '@ant-design/icons'
 import '../../styles/teacher/Project.scss';
 
+const { RangePicker } = DatePicker;
 const First = (props) => {
-  console.log(props);
   const onFinish = (values) => {
     props.first(values);
   }
@@ -83,7 +83,7 @@ const Second = (props) => {
         rules={[{ required: true, message: '请选择报名时间!' }]}
         initialValue={props?.secondContent?.signDate}
       >
-        <Input placeholder="请输入课程名" />
+        <RangePicker />
       </Form.Item>
       <Form.Item
         name="classDate"
@@ -91,7 +91,7 @@ const Second = (props) => {
         rules={[{ required: true, message: '请选择上课日期!' }]}
         initialValue={props?.secondContent?.classDate}
       >
-        <Input placeholder="请输入课程简介" />
+        <RangePicker />
       </Form.Item>
       <Form.Item
         name="classTime"
@@ -99,7 +99,7 @@ const Second = (props) => {
         initialValue={props?.secondContent?.classTime}
         rules={[{ required: true, message: '请选择上课时间!' }]}
       >
-        <Input.TextArea maxLength={100} autoSize showCount placeholder="请输入课程详情" />
+        <RangePicker />
       </Form.Item>
       <Form.Item
         name="address"
@@ -120,25 +120,24 @@ const Second = (props) => {
   )
 };
 const Third = (props) => {
-  const onFinish = (values) => {
-    props.second(values);
-  }
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
   return (
     <Form
-      onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       initialValues={{ remember: true }}
       className="form"
     >
-      <Form.Item >
+      <Form.Item className="Icon">
         <CheckCircleTwoTone
           twoToneColor="#52c41a"
-          className="Icon"
-          style={{fontSize:'100px', width: '100px', height: '100px' }}
+          className="success"
+          style={{ fontSize: '100px', width: '100px', height: '100px' }}
         />
+      </Form.Item>
+      <Form.Item className="Icon">
+        <div className="create">创建成功</div>
       </Form.Item>
       <Form.Item className="form-btn">
         <Button type="primary" onClick={props?.prev} className="prev-btn">上一步</Button>
@@ -173,7 +172,7 @@ const Project = () => {
     setSecondContent(values);
   }
   const create = () => {
-    let list = { ...firstContent, ...secondContent, state: '审核中' };
+    let list = { ...firstContent, ...secondContent, state: '审核中', count: 0 };
     console.log([list]);
     setProject([list]);
     setCurrent(0);
@@ -188,10 +187,10 @@ const Project = () => {
           <div className="head">当前栏目:</div>
           <Breadcrumb>
             <Breadcrumb.Item>
-              <Link to='/student/index' className="link">首页</Link>
+              <Link to='/teacher/index' className="link">首页</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <Link to="/student/active" className="link">课程列表</Link>
+              <Link to="/teacher/class" className="link">课程列表</Link>
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>

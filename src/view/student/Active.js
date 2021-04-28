@@ -4,7 +4,7 @@ import '../../styles/student/Active.scss';
 import { Breadcrumb, Divider, Pagination } from 'antd';
 import { Link } from 'react-router-dom';
 
-const Active = () => {
+const StudentActive = () => {
   const [active, setActive] = useState([]);
   const [total, setTotal] = useState();
   let pageSize = 15;
@@ -62,4 +62,4 @@ const Active = () => {
     </div>
   )
 }
-export default Active;
+export default StudentActive;

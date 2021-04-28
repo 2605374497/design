@@ -4,7 +4,7 @@ import { Divider, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import '../../styles/student/ActiveDetail.scss'
 
-const ActiveDetail = (props) => {
+const StudentActiveDetail = (props) => {
   const [list, setList] = useState();
   useEffect(() => {
     axios.post('/api/get/activeDetail', { id: props?.location?.state?.id }).then((res) => {
@@ -36,4 +36,4 @@ const ActiveDetail = (props) => {
     </div>
   )
 }
-export default ActiveDetail;
+export default StudentActiveDetail;

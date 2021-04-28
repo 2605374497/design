@@ -58,7 +58,7 @@ const Index = () => {
         <div className="announce">
           <div className="head">
             <div className="title">通知公告</div>
-            <Link to="/student/announce">
+            <Link to="/teacher/announce">
               <Button type="text" className="more">更多</Button>
             </Link>
           </div>
@@ -66,7 +66,7 @@ const Index = () => {
             {
               (announce || []).map((item, index) => {
                 return (
-                  <Link key={index} className="link" to={{ pathname: "/student/announce/detail", state: { id: item.id } }}>
+                  <Link key={index} className="link" to={{ pathname: "/teacher/announce/detail", state: { id: item.id } }}>
                     <div className="title" key={index}>
                       {item.title}
                       <Divider className="divider" />
@@ -80,7 +80,7 @@ const Index = () => {
         <div className="announce">
           <div className="head">
             <div className="title">教务动态</div>
-            <Link to={{ pathname: '/student/active', state: { id: 1 } }}>
+            <Link to={{ pathname: '/teacher/active', state: { id: 1 } }}>
               <Button type="text" className="more">更多</Button>
             </Link>
           </div>
@@ -88,7 +88,7 @@ const Index = () => {
             {
               (active || []).map((item, index) => {
                 return (
-                  <Link key={index} className="link" to={{ pathname: "/student/active/detail", state: { id: item.id } }}>
+                  <Link key={index} className="link" to={{ pathname: "/teacher/active/detail", state: { id: item.id } }}>
                     <div className="title" key={index}>
                       {item.title}
                       <Divider className="divider" />

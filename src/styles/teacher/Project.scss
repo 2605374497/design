@@ -81,8 +81,21 @@
     width: 45%;
   }
 
+  .success {
+    width: 10%;
+    height: 10%;
+    margin-left: 45%;
+  }
   .Icon {
-    width: 100px;
-    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .create {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-left: 30px;
   }
 }

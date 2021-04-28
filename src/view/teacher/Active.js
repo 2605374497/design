@@ -1,44 +1,44 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../styles/student/Announce.scss';
+import '../../styles/student/Active.scss';
 import { Breadcrumb, Divider, Pagination } from 'antd';
 import { Link } from 'react-router-dom';
 
-const StudentAnnounce = () => {
-  const [announce, setAnnounce] = useState([]);
+const TeacherActive = () => {
+  const [active, setActive] = useState([]);
   const [total, setTotal] = useState();
   let pageSize = 15;
   const onChange = (page) => {
-    axios.post('/api/get/announce', { page: page - 1, pageSize: pageSize }).then((res) => {
-      setAnnounce(res.data.announce);
+    axios.post('/api/get/active', { page: page - 1, pageSize: pageSize }).then((res) => {
+      setActive(res.data.active);
     })
   }
   useEffect(() => {
-    axios.post('/api/get/announce', { page: 0, pageSize: pageSize }).then((res) => {
-      setAnnounce(res.data.announce);
+    axios.post('/api/get/active', { page: 0, pageSize: pageSize }).then((res) => {
+      setActive(res.data.active);
       setTotal(res.data.total);
     })
   }, [])
   return (
-    <div className="announceContent">
+    <div className="activeContent">
       <div className="content">
         <div className='top'>
           <div className="head">当前栏目:</div>
           <Breadcrumb>
             <Breadcrumb.Item>
-              <Link to='/student/index' className="link">首页</Link>
+              <Link to='/teacher/index' className="link">首页</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <Link to="/student/announce" className="link">通知公告</Link>
+              <Link to="/teacher/active" className="link">教务动态</Link>
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <Divider className="divider" />
         <div className="body">
           {
-            (announce || []).map((item, index) => {
+            (active || []).map((item, index) => {
               return (
-                <Link key={index} className="link" to={{ pathname: "/student/announce/detail", state: { id: item.id } }}>
+                <Link key={index} className="link" to={{ pathname: "/teacher/active/detail", state: { id: item.id } }}>
                   <div className="title" key={index}>
                     {item.title}
                     <Divider className="divider" />
@@ -57,8 +57,9 @@ const StudentAnnounce = () => {
             showQuickJumper
           />
         </div>
+
       </div>
     </div>
   )
 }
-export default StudentAnnounce;
+export default TeacherActive;

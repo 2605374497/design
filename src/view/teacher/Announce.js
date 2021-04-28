@@ -4,7 +4,7 @@ import '../../styles/student/Announce.scss';
 import { Breadcrumb, Divider, Pagination } from 'antd';
 import { Link } from 'react-router-dom';
 
-const StudentAnnounce = () => {
+const TeacherAnnounce = () => {
   const [announce, setAnnounce] = useState([]);
   const [total, setTotal] = useState();
   let pageSize = 15;
@@ -26,10 +26,10 @@ const StudentAnnounce = () => {
           <div className="head">当前栏目:</div>
           <Breadcrumb>
             <Breadcrumb.Item>
-              <Link to='/student/index' className="link">首页</Link>
+              <Link to='/teacher/index' className="link">首页</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <Link to="/student/announce" className="link">通知公告</Link>
+              <Link to="/teacher/announce" className="link">通知公告</Link>
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -38,7 +38,7 @@ const StudentAnnounce = () => {
           {
             (announce || []).map((item, index) => {
               return (
-                <Link key={index} className="link" to={{ pathname: "/student/announce/detail", state: { id: item.id } }}>
+                <Link key={index} className="link" to={{ pathname: "/teacher/announce/detail", state: { id: item.id } }}>
                   <div className="title" key={index}>
                     {item.title}
                     <Divider className="divider" />
@@ -61,4 +61,4 @@ const StudentAnnounce = () => {
     </div>
   )
 }
-export default StudentAnnounce;
+export default TeacherAnnounce;
