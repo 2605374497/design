@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import ProjectContent from '../public/projectContent';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input, DatePicker } from 'antd';
-import { CheckCircleTwoTone } from '@ant-design/icons'
+import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input, DatePicker, TimePicker, BackTop } from 'antd';
+import { CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
 import '../../styles/teacher/Project.scss';
+import axios from 'axios';
+import Method from '../public/unit';
 
 const { RangePicker } = DatePicker;
 const First = (props) => {
@@ -70,6 +72,7 @@ const Second = (props) => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const dateFormat = 'YYYY/MM/DD';
   return (
     <Form
       onFinish={onFinish}
@@ -83,7 +86,10 @@ const Second = (props) => {
         rules={[{ required: true, message: '请选择报名时间!' }]}
         initialValue={props?.secondContent?.signDate}
       >
-        <RangePicker />
+        <RangePicker
+          placeholder={['开始日期', '结束日期']}
+          format={dateFormat}
+        />
       </Form.Item>
       <Form.Item
         name="classDate"
@@ -91,7 +97,10 @@ const Second = (props) => {
         rules={[{ required: true, message: '请选择上课日期!' }]}
         initialValue={props?.secondContent?.classDate}
       >
-        <RangePicker />
+        <RangePicker
+          placeholder={['开始日期', '结束日期']}
+          format={dateFormat}
+        />
       </Form.Item>
       <Form.Item
         name="classTime"
@@ -99,7 +108,10 @@ const Second = (props) => {
         initialValue={props?.secondContent?.classTime}
         rules={[{ required: true, message: '请选择上课时间!' }]}
       >
-        <RangePicker />
+        <TimePicker.RangePicker
+          placeholder={['开始时间', '结束时间']}
+        // format={dateFormat}
+        />
       </Form.Item>
       <Form.Item
         name="address"
@@ -110,7 +122,7 @@ const Second = (props) => {
           message: '请输入上课地址!',
         }]}
       >
-        <Input placeholder="请输入联系电话" />
+        <Input placeholder="请输入上课地址" />
       </Form.Item>
       <Form.Item className="form-btn">
         <Button type="primary" onClick={props?.prev} className="prev-btn">上一步</Button>
@@ -123,6 +135,11 @@ const Third = (props) => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const test = () => {
+    if (props?.back?.length == 0) {
+      props?.finally();
+    }
+  }
   return (
     <Form
       onFinishFailed={onFinishFailed}
@@ -130,18 +147,28 @@ const Third = (props) => {
       className="form"
     >
       <Form.Item className="Icon">
-        <CheckCircleTwoTone
-          twoToneColor="#52c41a"
-          className="success"
-          style={{ fontSize: '100px', width: '100px', height: '100px' }}
-        />
+        {
+          props?.back?.length > 0 ? <CloseCircleOutlined
+            twoToneColor="#52c41a"
+            className="success"
+            style={{ fontSize: '100px', width: '100px', height: '100px' }}
+          /> : <CheckCircleTwoTone
+            twoToneColor="#52c41a"
+            className="success"
+            style={{ fontSize: '100px', width: '100px', height: '100px' }}
+          />
+        }
+
       </Form.Item>
       <Form.Item className="Icon">
-        <div className="create">创建成功</div>
+        {
+          props?.back?.length > 0 ? <div className="create">创建失败</div> :
+            <div className="create">创建成功</div>
+        }
       </Form.Item>
       <Form.Item className="form-btn">
         <Button type="primary" onClick={props?.prev} className="prev-btn">上一步</Button>
-        <Button type="primary" onClick={props?.finally} className="next-btn">完成</Button>
+        <Button type="primary" onClick={test} className="next-btn">完成</Button>
       </Form.Item>
     </Form>
   )
@@ -153,8 +180,11 @@ const Project = () => {
   const [current, setCurrent] = useState(0);
   const [firstContent, setFirstContent] = useState();
   const [secondContent, setSecondContent] = useState();
+  const [back, setBack] = useState([]);
   useEffect(() => {
-    setProject([]);
+    axios.get('/api/get/project').then((res) => {
+      setProject(res.data.project);
+    })
   }, []);
   const addClass = () => {
     setIsModalVisible(true);
@@ -168,6 +198,34 @@ const Project = () => {
     setFirstContent(values);
   }
   const second = (values) => {
+    let list = {};
+    list.address = values.address;
+    list.StartsignDate = Method.getDate(values?.signDate[0]['_d']).classdate;
+    list.EndsignDate = Method.getDate(values?.signDate[1]['_d']).classdate;
+    list.StartclassDate = Method.getDate(values?.classDate[0]['_d']).classdate;
+    list.EndclassDate = Method.getDate(values?.classDate[1]['_d']).classdate;
+    list.StartclassTime = Method.getDate(values?.classTime[0]['_d']).classtime;
+    list.EndclassTime = Method.getDate(values?.classTime[1]['_d']).classtime;
+    let data = [];
+    console.log(project,values);
+    (project || []).map((item) => {
+      if (item.address == list.address) {
+        if (
+          (item.StartclassTime < list.StartclassTime && item.EndclassTime > list.StartclassTime) &&
+          (item.StartclassTime < list.EndclassTime && item.EndclassTime > list.EndclassTime)
+        ) {
+          if (
+            (item.StartclassDate < list.StartclassDate && item.EndclassDate > list.StartclassDate) &&
+            (item.StartclassDate < list.EndclassDate && item.EndclassDate > list.EndclassDate)
+          ) {
+            data.push(item);
+          }
+        }
+      }
+    })
+    if (data.length > 0) {
+      setBack(data);
+    }
     setCurrent(2);
     setSecondContent(values);
   }
@@ -232,6 +290,7 @@ const Project = () => {
               <Third
                 prev={() => { setCurrent(1) }}
                 finally={create}
+                back={back}
               />
         }
       </Modal>

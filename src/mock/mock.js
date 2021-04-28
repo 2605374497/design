@@ -416,10 +416,24 @@ Mock.mock('/api/delete/course', 'post', (req) => {
     }
 })
 // 获取选课时间
-Mock.mock('/api/get/time', 'get', (req) => {
+Mock.mock('/api/get/time', 'get', () => {
     return {
         status: 200,
         msg: '获取数据成功',
         time: Time
+    }
+})
+// 创建课程
+Mock.mock('/api/get/project','get',(req)=>{
+    let list=[];
+    (teacher||[]).map((items)=>{
+        (items?.project||[]).map((item)=>{
+            list.push(list);
+        })
+    });
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        project: list
     }
 })
