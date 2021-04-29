@@ -191,10 +191,15 @@ const Project = () => {
   const [remeber, setremeber] = useState();
   const [back, setBack] = useState([]);
   const [message, setMessage] = useState('');
+  const [allProject,setAllProject]=useState([]);
   useEffect(() => {
     axios.post('/api/teacher/project', { sid: sid }).then((res) => {
       // console.log(res, 'res');
       setProject(res.data.project);
+    })
+    axios.get('/api/get/project').then((res) => {
+      // console.log(res, 'res');
+      setAllProject(res.data.project);
     })
   }, []);
   const sid = localStorage.getItem('id');
@@ -228,7 +233,7 @@ const Project = () => {
     // console.log(project, values);
     let c = Method.compareDate1(list.EndsignDate, list.StartclassDate);
     // console.log(c, '---c');
-    (project || []).map((item) => {
+    (allProject || []).map((item) => {
       let a = Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate);
       let b = Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime);
       if (item.address == list.address) {

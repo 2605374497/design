@@ -423,7 +423,20 @@ Mock.mock('/api/get/time', 'get', () => {
         time: Time
     }
 })
-// 获取课程
+// 获取所有课程
+Mock.mock('/api/get/project','get',(req)=>{
+    let list=[];
+    (teacher||[]).map((items)=>{
+        (items?.project||[]).map((item)=>{
+            list.push(list);
+        })
+    });
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        project: list
+    }
+})
 Mock.mock('/api/teacher/project','post',(req)=>{
     let sid = JSON.parse(req.body).sid;
     let list;
