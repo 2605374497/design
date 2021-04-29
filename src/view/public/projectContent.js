@@ -7,40 +7,39 @@ const ProjectContent = (props) => {
   let type = props.type;
   const columns = [
     { title: '课程名称', dataIndex: 'name', key: 'name' },
-    {
-      title: '报名时间',
-      // dataIndex: 'signDate',
-      key: 'signDate',
-      render: (text, record) => {
-        let start = Method.getDate(record?.signDate[0]['_d']).classdate;
-        let end = Method.getDate(record?.signDate[1]['_d']).classdate;
-        return (
-          <span>{start}-{end}</span>
-        )
-      }
-    },
-    {
-      title: '课程开始日期',
-      //  dataIndex: 'address',
-      key: 'start',
-      render: (text, record) => {
-        let start = Method.getDate(record?.classDate[0]['_d']).classdate;
-        return (
-          <span>{start}</span>
-        )
-      }
-    },
-    {
-      title: '课程开始时间',
-      //  dataIndex: 'address',
-      key: 'start',
-      render: (text, record) => {
-        let end = Method.getDate(record?.classTime[1]['_d']).classdate;
-        return (
-          <span>{end}</span>
-        )
-      }
-    },
+    // {
+    //   title: '报名时间',
+    //   // dataIndex: 'signDate',
+    //   key: 'signDate',
+    //   render: (text, record) => {
+    //     console.log(record,'---record');
+    //     return (
+    //       <span>{record?.StartsignDate}-{record?.EndsignDate}</span>
+    //     )
+    //   }
+    // },
+    // {
+    //   title: '课程开始日期',
+    //   //  dataIndex: 'address',
+    //   key: 'start',
+    //   render: (text, record) => {
+    //     let start = Method.getDate(record?.classDate[0]['_d']);
+    //     return (
+    //       <span>{start}</span>
+    //     )
+    //   }
+    // },
+    // {
+    //   title: '课程开始时间',
+    //   //  dataIndex: 'address',
+    //   key: 'start',
+    //   render: (text, record) => {
+    //     let end = Method.getDate(record?.classTime[1]['_d']);
+    //     return (
+    //       <span>{end}</span>
+    //     )
+    //   }
+    // },
     {
       title: '课程人数',
       // dataIndex: `count`,
@@ -56,7 +55,7 @@ const ProjectContent = (props) => {
       title: '操作',
       dataIndex: '',
       key: 'x',
-      render: () => <a>Delete</a>,
+      // render: () => <a>Delete</a>,
     },
   ];
   return (

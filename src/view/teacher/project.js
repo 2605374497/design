@@ -138,8 +138,12 @@ const Third = (props) => {
   const test = () => {
     if (props?.back?.length == 0) {
       props?.finally();
+    } else {
+      props?.error();
     }
   }
+  console.log(props?.back, '----back');
+  console.log(props?.message, '----message');
   return (
     <Form
       onFinishFailed={onFinishFailed}
@@ -147,12 +151,16 @@ const Third = (props) => {
       className="form"
     >
       <Form.Item className="Icon">
-        {
+        {props?.message == "" ?
           props?.back?.length > 0 ? <CloseCircleOutlined
             twoToneColor="#52c41a"
             className="success"
             style={{ fontSize: '100px', width: '100px', height: '100px' }}
           /> : <CheckCircleTwoTone
+            twoToneColor="#52c41a"
+            className="success"
+            style={{ fontSize: '100px', width: '100px', height: '100px' }}
+          /> : <CloseCircleOutlined
             twoToneColor="#52c41a"
             className="success"
             style={{ fontSize: '100px', width: '100px', height: '100px' }}
@@ -162,8 +170,8 @@ const Third = (props) => {
       </Form.Item>
       <Form.Item className="Icon">
         {
-          props?.back?.length > 0 ? <div className="create">创建失败</div> :
-            <div className="create">创建成功</div>
+          props?.message == "" ? props?.back?.length > 0 ? <div className="create">创建失败</div> :
+            <div className="create">创建成功</div> : <div className="create">上课时间应晚于报名时间</div>
         }
       </Form.Item>
       <Form.Item className="form-btn">
@@ -180,18 +188,26 @@ const Project = () => {
   const [current, setCurrent] = useState(0);
   const [firstContent, setFirstContent] = useState();
   const [secondContent, setSecondContent] = useState();
+  const [remeber, setremeber] = useState();
   const [back, setBack] = useState([]);
+  const [message, setMessage] = useState('');
   useEffect(() => {
     axios.get('/api/get/project').then((res) => {
       setProject(res.data.project);
     })
   }, []);
+  const sid = localStorage.getItem('id');
   const addClass = () => {
     setIsModalVisible(true);
   }
   const handleCancel = () => {
     setIsModalVisible(false);
     setCurrent(0);
+    setSecondContent({});
+    setFirstContent({});
+    setremeber({});
+    setBack([]);
+    setMessage('');
   }
   const first = (values) => {
     setCurrent(1);
@@ -206,37 +222,66 @@ const Project = () => {
     list.EndclassDate = Method.getDate(values?.classDate[1]['_d']).classdate;
     list.StartclassTime = Method.getDate(values?.classTime[0]['_d']).classtime;
     list.EndclassTime = Method.getDate(values?.classTime[1]['_d']).classtime;
+
     let data = [];
-    console.log(project,values);
+    console.log(project, values);
+    let c = Method.compareDate1(list.EndsignDate, list.StartclassDate);
+    console.log(c, '---c');
     (project || []).map((item) => {
+      let a = Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate);
+      let b = Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime);
       if (item.address == list.address) {
-        if (
-          (item.StartclassTime < list.StartclassTime && item.EndclassTime > list.StartclassTime) &&
-          (item.StartclassTime < list.EndclassTime && item.EndclassTime > list.EndclassTime)
-        ) {
-          if (
-            (item.StartclassDate < list.StartclassDate && item.EndclassDate > list.StartclassDate) &&
-            (item.StartclassDate < list.EndclassDate && item.EndclassDate > list.EndclassDate)
-          ) {
-            data.push(item);
+        if (a) {
+          if (b) {
+            data.push(item)
           }
         }
       }
     })
+
     if (data.length > 0) {
       setBack(data);
     }
+    if (!c) {
+      setMessage('上课时间应晚于报名时间');
+    }
+    setremeber(list);
     setCurrent(2);
     setSecondContent(values);
   }
   const create = () => {
-    let list = { ...firstContent, ...secondContent, state: '审核中', count: 0 };
-    console.log([list]);
-    setProject([list]);
-    setCurrent(0);
+    let date = Method.getDate(new Date())?.classdate;
+    if (back?.length > 0 || message != "") {
+      handleCancel();
+    } else {
+      let list = { ...firstContent, ...secondContent, ...remeber, count: 0, tid: sid, id: project?.length + 1 };
+      if (Method.compareDate1(date, list.StartsignDate)) {
+        list.state = "待报名";
+      } else if (Method.compareDate2(list.StartsignDate, date, list.EndsignDate)) {
+        list.state = "报名中";
+      } else if (Method.compareDate2(list.EndsignDate, date, list.StartclassDate)) {
+        list.state = "未开始";
+      } else if (Method.compareDate2(list.StartclassDate, date, list.EndclassDate)) {
+        list.state = "进行中";
+      } else {
+        list.state = "已结束";
+      }
+      axios.post('/api/teacher/create', { list: list, sid: sid }).then((res) => {
+        console.log(res, '--res');
+        setProject(res.data.project);
+      })
+      console.log(message, '--message');
+      console.log([list]);
+      setProject([list]);
+      setCurrent(0);
+      setIsModalVisible(false);
+      setFirstContent({});
+      setSecondContent({});
+    }
+  }
+  const error = () => {
+    setBack([]);
     setIsModalVisible(false);
-    setFirstContent({});
-    setSecondContent({});
   }
   return (
     <div className="project">
@@ -288,9 +333,11 @@ const Project = () => {
                 secondContent={secondContent}
               /> :
               <Third
-                prev={() => { setCurrent(1) }}
+                prev={() => { setCurrent(1); setBack([]); setMessage(''); }}
                 finally={create}
                 back={back}
+                message={message}
+                error={error}
               />
         }
       </Modal>

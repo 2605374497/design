@@ -423,7 +423,7 @@ Mock.mock('/api/get/time', 'get', () => {
         time: Time
     }
 })
-// 创建课程
+// 获取课程
 Mock.mock('/api/get/project','get',(req)=>{
     let list=[];
     (teacher||[]).map((items)=>{
@@ -435,5 +435,22 @@ Mock.mock('/api/get/project','get',(req)=>{
         status: 200,
         msg: '获取数据成功',
         project: list
+    }
+})
+Mock.mock('/api/teacher/create','post',(req)=>{
+    let sid = JSON.parse(req.body).sid;
+    let list=JSON.parse(req.body).list;
+    let project=[]
+    teacher.map((item)=>{
+        if(item.netID==sid){
+            project=item.project;
+            project.push(list);
+            console.log(project,'--project');
+        }
+    })
+    return {
+        status:200,
+        msg:'获取数据成功',
+        project:project
     }
 })
