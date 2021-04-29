@@ -424,12 +424,13 @@ Mock.mock('/api/get/time', 'get', () => {
     }
 })
 // 获取课程
-Mock.mock('/api/get/project','get',(req)=>{
-    let list=[];
+Mock.mock('/api/teacher/project','post',(req)=>{
+    let sid = JSON.parse(req.body).sid;
+    let list;
     (teacher||[]).map((items)=>{
-        (items?.project||[]).map((item)=>{
-            list.push(list);
-        })
+        if(items?.netID==sid){
+            list=items?.project;
+        }
     });
     return {
         status: 200,
@@ -445,7 +446,6 @@ Mock.mock('/api/teacher/create','post',(req)=>{
         if(item.netID==sid){
             project=item.project;
             project.push(list);
-            console.log(project,'--project');
         }
     })
     return {

@@ -142,8 +142,8 @@ const Third = (props) => {
       props?.error();
     }
   }
-  console.log(props?.back, '----back');
-  console.log(props?.message, '----message');
+  // console.log(props?.back, '----back');
+  // console.log(props?.message, '----message');
   return (
     <Form
       onFinishFailed={onFinishFailed}
@@ -192,7 +192,8 @@ const Project = () => {
   const [back, setBack] = useState([]);
   const [message, setMessage] = useState('');
   useEffect(() => {
-    axios.get('/api/get/project').then((res) => {
+    axios.post('/api/teacher/project', { sid: sid }).then((res) => {
+      // console.log(res, 'res');
       setProject(res.data.project);
     })
   }, []);
@@ -224,9 +225,9 @@ const Project = () => {
     list.EndclassTime = Method.getDate(values?.classTime[1]['_d']).classtime;
 
     let data = [];
-    console.log(project, values);
+    // console.log(project, values);
     let c = Method.compareDate1(list.EndsignDate, list.StartclassDate);
-    console.log(c, '---c');
+    // console.log(c, '---c');
     (project || []).map((item) => {
       let a = Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate);
       let b = Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime);
@@ -267,11 +268,11 @@ const Project = () => {
         list.state = "已结束";
       }
       axios.post('/api/teacher/create', { list: list, sid: sid }).then((res) => {
-        console.log(res, '--res');
+        // console.log(res, '--res');
         setProject(res.data.project);
       })
-      console.log(message, '--message');
-      console.log([list]);
+      // console.log(message, '--message');
+      // console.log([list]);
       setProject([list]);
       setCurrent(0);
       setIsModalVisible(false);

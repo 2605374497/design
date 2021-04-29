@@ -4,6 +4,7 @@ import Method from '../public/unit';
 
 const ProjectContent = (props) => {
   let project = props?.project || [];
+  // console.log(project,'----pasdpa');
   let type = props.type;
   const columns = [
     { title: '课程名称', dataIndex: 'name', key: 'name' },

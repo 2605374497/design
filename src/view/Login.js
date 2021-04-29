@@ -87,7 +87,7 @@ const Login = () => {
             modal.destroy();
           }, secondsToGo * 1000);
         };
-        console.log(res);
+        // console.log(res);
       });
     }
   };

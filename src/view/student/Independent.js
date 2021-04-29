@@ -37,7 +37,7 @@ const Independent = () => {
       setTime(data.time);
       let state = data.state > 0 ? true : false;
       setBool(state);
-      console.log(state);
+      // console.log(state);
     })
   }, []);
   const onChange = (page) => {
