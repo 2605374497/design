@@ -1,10 +1,9 @@
-import { Divider, Table, Button } from 'antd';
+import { Divider, Popconfirm, Table, Button } from 'antd';
 import '../../styles/ProjectContent.scss';
 import Method from '../public/unit';
 
 const ProjectContent = (props) => {
   let project = props?.project || [];
-  // console.log(project,'----pasdpa');
   let type = props.type || 'teacher';
   const columns = [
     { title: '课程名称', dataIndex: 'name', key: 'name' },
@@ -95,8 +94,8 @@ const ProjectContent = (props) => {
                   <Button size="small" >查看评价</Button>
                 </div> :
                 <div>
-                  <Button size="small" >打分</Button>
-                  <Button size="small" >查看评价</Button>
+                  <Button size="small" disabled >打分</Button>
+                  <Button size="small" disabled >查看评价</Button>
                 </div>
             }
           </div> :
@@ -105,12 +104,10 @@ const ProjectContent = (props) => {
             {
               record.state == "已结束" ?
                 <div>
-                  <Button size="small" >打分</Button>
-                  <Button size="small" >查看评价</Button>
+                  <Button size="small" >评价</Button>
                 </div> :
                 <div>
-                  <Button size="small" >打分</Button>
-                  <Button size="small" >查看评价</Button>
+                  <Button size="small" disabled>评价</Button>
                 </div>
             }
           </div>
@@ -122,6 +119,7 @@ const ProjectContent = (props) => {
       <Table
         columns={columns}
         dataSource={project}
+      // size="small"
       />
     </div>
   )

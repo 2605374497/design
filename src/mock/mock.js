@@ -467,3 +467,23 @@ Mock.mock('/api/teacher/create','post',(req)=>{
         project:project
     }
 })
+// 课程详情
+Mock.mock('/api/show/detail','post',(req)=>{
+    let tid=JSON.parse(req.body).tid;
+    let id=JSON.parse(req.body).id;
+    let list;
+    (teacher||[]).map((items)=>{
+        if(items.netID===tid){
+            (items?.project||[]).map((item)=>{
+                if(item.id==id){
+                    list=item;
+                }
+            })
+        }
+    });
+    return {
+        status:200,
+        msg:'获取数据成功',
+        list:list
+    }
+})

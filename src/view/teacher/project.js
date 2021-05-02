@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import ProjectContent from '../public/projectContent';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input, DatePicker, TimePicker, BackTop } from 'antd';
+import { Breadcrumb, Button, Divider, Steps,  Modal, Form, Input, DatePicker, TimePicker, BackTop } from 'antd';
 import { CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
 import '../../styles/teacher/Project.scss';
 import axios from 'axios';
 import Method from '../public/unit';
+import Detail from '../public/detail.js';
 
 const { RangePicker } = DatePicker;
 const First = (props) => {
@@ -170,7 +171,7 @@ const Third = (props) => {
       </Form.Item>
       <Form.Item className="Icon">
         {
-          props?.message == "" ? props?.back?.length > 0 ? <div className="create">创建失败</div> :
+          props?.message == "" ? props?.back?.length > 0 ? <div className="create">与已创建课程有冲突</div> :
             <div className="create">创建成功</div> : <div className="create">上课时间应晚于报名时间</div>
         }
       </Form.Item>
@@ -191,10 +192,9 @@ const Project = () => {
   const [remeber, setremeber] = useState();
   const [back, setBack] = useState([]);
   const [message, setMessage] = useState('');
-  const [allProject,setAllProject]=useState([]);
+  const [allProject, setAllProject] = useState([]);
   useEffect(() => {
     axios.post('/api/teacher/project', { sid: sid }).then((res) => {
-      // console.log(res, 'res');
       setProject(res.data.project);
     })
     axios.get('/api/get/project').then((res) => {
@@ -231,24 +231,33 @@ const Project = () => {
 
     let data = [];
     // console.log(project, values);
-    let c = Method.compareDate1(list.EndsignDate, list.StartclassDate);
+    // let c = Method.compareDate1(list.EndsignDate, list.StartclassDate);
     // console.log(c, '---c');
     (allProject || []).map((item) => {
-      let a = Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate);
-      let b = Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime);
+      // let a = Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate);
+      // let b = Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime);
       if (item.address == list.address) {
-        if (a) {
-          if (b) {
+        if (Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate)) {
+          if (Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime)) {
             data.push(item)
           }
         }
       }
-    })
+    });
+    (project || []).map((item) => {
+      // let a = Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate);
+      // let b = Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime);
+      if (Method.compareDate(item.StartclassDate, item.EndclassDate, list.StartclassDate, list.EndclassDate)) {
+        if (Method.compareTime(item.StartclassTime, item.EndclassTime, list.StartclassTime, list.EndclassTime)) {
+          data.push(item)
+        }
+      }
+    });
 
     if (data.length > 0) {
       setBack(data);
     }
-    if (!c) {
+    if (!Method.compareDate1(list.EndsignDate, list.StartclassDate)) {
       setMessage('上课时间应晚于报名时间');
     }
     setremeber(list);
