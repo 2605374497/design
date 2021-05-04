@@ -1,8 +1,9 @@
 import Mock from 'mockjs';
+import Method from '../view/public/unit';
 
 const { admin, Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
     // 选课时间
-    'Time': new Date('2021/4/26 23:21:21'),
+    'Time': new Date('2021/5/26 23:21:21'),
     // 学生信息
     'student|25': [
         {
@@ -15,44 +16,8 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'major': '通信工程',
             'independent': [],
             'phone': '@phone',
-            'course': [],
-        },
-        {
-            'netID|+1': 17050618101,
-            'name': '@cname',
-            'address': '@city',
-            'belong': '文传学院',
-            'age|18-22': 20,
-            'password': 'student',
-            'major': '汉语言文学',
-            'independent': [],
-            'phone': '@phone',
-            'course': [],
-        },
-        {
-            'netID|+1': 17050718101,
-            'name': '@cname',
-            'address': '@city',
-            'belong': '音舞学院',
-            'age|18-22': 20,
-            'password': 'student',
-            'major': '音乐表演',
-            'independent': [],
-            'phone': '@phone',
-            'course': [],
-        },
-        {
-            'netID|+1': 17050718101,
-            'name': '@cname',
-            'address': '@city',
-            'belong': '音舞学院',
-            'age|18-22': 20,
-            'password': 'student',
-            'major': '经济管理',
-            'independent': [],
-            'phone': '@phone',
-            'course': [],
-        },
+            'project': [],
+        }
     ],
     // 教师信息
     'teacher|10': [
@@ -61,7 +26,95 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'password': 'teacher',
             'name': '@cname',
             'age|30-55': 20,
-            'project': [],
+            'project': [
+                {
+                    "name": "教师1测试课程1",
+                    "description": "123123",
+                    "detail": "123",
+                    "phone": "13732907822",
+                    "signDate": [
+                        "2021-05-02T14:10:21.770Z",
+                        "2021-05-04T14:10:21.770Z"
+                    ],
+                    "classDate": [
+                        "2021-05-09T14:10:24.311Z",
+                        "2021-05-14T14:10:24.311Z"
+                    ],
+                    "classTime": [
+                        "2021-05-02T21:00:00.046Z",
+                        "2021-05-02T22:00:00.335Z"
+                    ],
+                    "address": "123123",
+                    "StartsignDate": "2021.05.02",
+                    "EndsignDate": "2021.05.05",
+                    "StartclassDate": "2021.05.09",
+                    "EndclassDate": "2021.05.14",
+                    "StartclassTime": "05:00:00",
+                    "EndclassTime": "06:00:00",
+                    "count": 0,
+                    'tid|+1': 111111,
+                    "id": 1,
+                    "state": "报名中"
+                },
+                {
+                    "name": "教师2测试课程1",
+                    "description": "123123",
+                    "detail": "123",
+                    "phone": "13732907822",
+                    "signDate": [
+                        "2021-05-02T14:10:21.770Z",
+                        "2021-05-04T14:10:21.770Z"
+                    ],
+                    "classDate": [
+                        "2021-05-09T14:10:24.311Z",
+                        "2021-05-14T14:10:24.311Z"
+                    ],
+                    "classTime": [
+                        "2021-05-02T21:00:00.046Z",
+                        "2021-05-02T22:00:00.335Z"
+                    ],
+                    "address": "123123",
+                    "StartsignDate": "2021.05.02",
+                    "EndsignDate": "2021.05.05",
+                    "StartclassDate": "2021.05.09",
+                    "EndclassDate": "2021.05.14",
+                    "StartclassTime": "05:00:00",
+                    "EndclassTime": "06:00:00",
+                    "count": 0,
+                    'tid|+1': 111111,
+                    "id": 1,
+                    "state": "报名中"
+                },
+                {
+                    "name": "12312",
+                    "description": "123123",
+                    "detail": "123",
+                    "phone": "13732907822",
+                    "signDate": [
+                        "2021-05-19T14:10:41.496Z",
+                        "2021-05-20T14:10:41.496Z"
+                    ],
+                    "classDate": [
+                        "2021-05-31T14:10:43.833Z",
+                        "2021-06-05T14:10:43.833Z"
+                    ],
+                    "classTime": [
+                        "2021-05-02T17:00:00.991Z",
+                        "2021-05-02T18:00:00.254Z"
+                    ],
+                    "address": "123123",
+                    "StartsignDate": "2021.05.19",
+                    "EndsignDate": "2021.05.20",
+                    "StartclassDate": "2021.05.31",
+                    "EndclassDate": "2021.06.05",
+                    "StartclassTime": "01:00:00",
+                    "EndclassTime": "02:00:00",
+                    "count": 0,
+                    'tid|+1': 111111,
+                    "id": 2,
+                    "state": "待报名"
+                }
+            ],
             'belong|1': ['音舞学院', '数计学院', '医学院', '文传学院', '体育学院'],
         }
     ],
@@ -327,94 +380,94 @@ Mock.mock('/api/get/search', 'post', (req) => {
         total: show.length,
     }
 })
-// 公选课数据
-Mock.mock('/api/get/course', 'post', (req) => {
-    let page = JSON.parse(req.body).page;
-    let pageSize = JSON.parse(req.body).pageSize || 5;
-    let list = [];
-    for (let i = page * pageSize; i < (page + 1) * pageSize && i < Course.length; i++) {
-        list.push(Course[i]);
-    }
-    return {
-        status: 200,
-        msg: '获取数据成功',
-        Course: list,
-        total: Course.length,
-    }
-})
-// 添加公选课程
-Mock.mock('/api/get/addCourse', 'post', (req) => {
-    let id = JSON.parse(req.body).id;
-    let sid = JSON.parse(req.body).sid;
-    let list, msg, index;
-    student.map((item, i) => {
-        if (item.netID == sid) {
-            list = item.course;
-            index = i;
-        }
-    })
-    if (list.length < 1) {
-        Course.map((item) => {
-            if (item.id == id) {
-                if (item.total < 150) {
-                    list.push(item);
-                    item.total++;
-                    msg = 200;
-                } else {
-                    msg = "该门课程剩余量为0";
-                }
-            }
-        });
-    } else {
-        msg = '已选择课程'
-    }
-    return {
-        status: 200,
-        msg: msg,
-        list: list
-    }
-})
-// 获取已选公选课程
-Mock.mock('/api/get/courselist', 'post', (req) => {
-    let sid = JSON.parse(req.body).sid;
-    let list;
-    student.map((item) => {
-        if (item.netID == sid) {
-            list = item.course;
-        }
-    })
-    return {
-        status: 200,
-        msg: '获取数据成功',
-        list: list
-    }
-})
-// 删除公选课程
-Mock.mock('/api/delete/course', 'post', (req) => {
-    let id = JSON.parse(req.body).id;
-    let sid = JSON.parse(req.body).sid;
-    let list;
-    (student || []).map((item) => {
-        if (item?.netID == sid) {
-            list = item?.course;
-            (list || []).map((items, index) => {
-                if (items.id == id) {
-                    list.splice(index, 1);
-                    (Course || []).map((pro, i) => {
-                        if (pro?.id == id) {
-                            pro.total -= 1;
-                        }
-                    })
-                }
-            })
-        }
-    })
-    return {
-        status: 200,
-        msg: '获取数据成功',
-        list: list
-    }
-})
+// // 公选课数据
+// Mock.mock('/api/get/course', 'post', (req) => {
+//     let page = JSON.parse(req.body).page;
+//     let pageSize = JSON.parse(req.body).pageSize || 5;
+//     let list = [];
+//     for (let i = page * pageSize; i < (page + 1) * pageSize && i < Course.length; i++) {
+//         list.push(Course[i]);
+//     }
+//     return {
+//         status: 200,
+//         msg: '获取数据成功',
+//         Course: list,
+//         total: Course.length,
+//     }
+// })
+// // 添加公选课程
+// Mock.mock('/api/get/addCourse', 'post', (req) => {
+//     let id = JSON.parse(req.body).id;
+//     let sid = JSON.parse(req.body).sid;
+//     let list, msg, index;
+//     student.map((item, i) => {
+//         if (item.netID == sid) {
+//             list = item.course;
+//             index = i;
+//         }
+//     })
+//     if (list.length < 1) {
+//         Course.map((item) => {
+//             if (item.id == id) {
+//                 if (item.total < 150) {
+//                     list.push(item);
+//                     item.total++;
+//                     msg = 200;
+//                 } else {
+//                     msg = "该门课程剩余量为0";
+//                 }
+//             }
+//         });
+//     } else {
+//         msg = '已选择课程'
+//     }
+//     return {
+//         status: 200,
+//         msg: msg,
+//         list: list
+//     }
+// })
+// // 获取已选公选课程
+// Mock.mock('/api/get/courselist', 'post', (req) => {
+//     let sid = JSON.parse(req.body).sid;
+//     let list;
+//     student.map((item) => {
+//         if (item.netID == sid) {
+//             list = item.course;
+//         }
+//     })
+//     return {
+//         status: 200,
+//         msg: '获取数据成功',
+//         list: list
+//     }
+// })
+// // 删除公选课程
+// Mock.mock('/api/delete/course', 'post', (req) => {
+//     let id = JSON.parse(req.body).id;
+//     let sid = JSON.parse(req.body).sid;
+//     let list;
+//     (student || []).map((item) => {
+//         if (item?.netID == sid) {
+//             list = item?.course;
+//             (list || []).map((items, index) => {
+//                 if (items.id == id) {
+//                     list.splice(index, 1);
+//                     (Course || []).map((pro, i) => {
+//                         if (pro?.id == id) {
+//                             pro.total -= 1;
+//                         }
+//                     })
+//                 }
+//             })
+//         }
+//     })
+//     return {
+//         status: 200,
+//         msg: '获取数据成功',
+//         list: list
+//     }
+// })
 // 获取选课时间
 Mock.mock('/api/get/time', 'get', () => {
     return {
@@ -424,10 +477,10 @@ Mock.mock('/api/get/time', 'get', () => {
     }
 })
 // 获取所有课程
-Mock.mock('/api/get/project','get',(req)=>{
-    let list=[];
-    (teacher||[]).map((items)=>{
-        (items?.project||[]).map((item)=>{
+Mock.mock('/api/get/project', 'get', (req) => {
+    let list = [];
+    (teacher || []).map((items) => {
+        (items?.project || []).map((item) => {
             list.push(list);
         })
     });
@@ -437,53 +490,194 @@ Mock.mock('/api/get/project','get',(req)=>{
         project: list
     }
 })
-Mock.mock('/api/teacher/project','post',(req)=>{
+// 教师自建课程 
+Mock.mock('/api/teacher/project', 'post', (req) => {
     let sid = JSON.parse(req.body).sid;
     let list;
-    (teacher||[]).map((items)=>{
-        if(items?.netID==sid){
-            list=items?.project;
+    (teacher || []).map((items) => {
+        if (items?.netID == sid) {
+            list = items?.project;
         }
     });
+    list.map((list) => {
+        let date = Method.getDate(new Date())?.classdate;
+        if (Method.compareDate1(date, list.StartsignDate)) {
+            list.state = "待报名";
+        } else if (Method.compareDate2(list.StartsignDate, date, list.EndsignDate)) {
+            list.state = "报名中";
+        } else if (Method.compareDate2(list.EndsignDate, date, list.StartclassDate)) {
+            list.state = "未开始";
+        } else if (Method.compareDate2(list.StartclassDate, date, list.EndclassDate)) {
+            list.state = "进行中";
+        } else {
+            list.state = "已结束";
+        }
+    })
     return {
         status: 200,
         msg: '获取数据成功',
         project: list
     }
 })
-Mock.mock('/api/teacher/create','post',(req)=>{
+// 创建课程
+Mock.mock('/api/teacher/create', 'post', (req) => {
     let sid = JSON.parse(req.body).sid;
-    let list=JSON.parse(req.body).list;
-    let project=[]
-    teacher.map((item)=>{
-        if(item.netID==sid){
-            project=item.project;
-            project.push(list);
+    let list = JSON.parse(req.body).list;
+    let project = []
+    teacher.map((item) => {
+        if (item.netID == sid) {
+            item.project.push(list);
+            project = item.project;
         }
     })
     return {
-        status:200,
-        msg:'获取数据成功',
-        project:project
+        status: 200,
+        msg: '获取数据成功',
+        project: project
     }
 })
 // 课程详情
-Mock.mock('/api/show/detail','post',(req)=>{
-    let tid=JSON.parse(req.body).tid;
-    let id=JSON.parse(req.body).id;
+Mock.mock('/api/show/detail', 'post', (req) => {
+    let tid = JSON.parse(req.body).tid;
+    let id = JSON.parse(req.body).id;
+    console.log(tid);
+    console.log(id);
     let list;
-    (teacher||[]).map((items)=>{
-        if(items.netID===tid){
-            (items?.project||[]).map((item)=>{
-                if(item.id==id){
-                    list=item;
+    (teacher || []).map((items) => {
+        if (items.netID == tid) {
+            // console.log(1111);
+            // console.log(items,'items');
+            (items?.project || []).map((item) => {
+                // console.log(222);
+                if (item.id == id) {
+                    // console.log(222);
+                    list = item;
+                    list.teacher = items.name;
                 }
             })
         }
     });
+    // console.log(list);
     return {
-        status:200,
-        msg:'获取数据成功',
-        list:list
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 选课数据
+Mock.mock('/api/student/select', 'get', (req) => {
+    let date = Method.getDate(new Date())?.classdate;
+    let project = [];
+    (teacher || []).map((items) => {
+        // console.log(items.project);
+        (items.project || []).map((item) => {
+            if (Method.compareDate2(item.StartsignDate, date, item.EndsignDate)) {
+                // console.log(222);
+                project.push(item);
+            }
+        })
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        project: project
+    }
+})
+// 添加课程
+Mock.mock('/api/add/class', 'post', (req) => {
+    let tid = JSON.parse(req.body).tid;
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    console.log(sid, id, tid);
+    let bool = false;
+    let date = Method.getDate(new Date())?.classdate;
+    let already = [], msg = '获取数据成功', project = [];
+    (student || []).map((item) => {
+        if (item.netID == sid) {
+            already = item?.project;
+        }
+    });
+    (already || []).map((item) => {
+        // console.log(item,'---item');
+        if (item.id == id) {
+            bool = true;
+        }
+    });
+    (teacher || []).map((items) => {
+        if (items?.netID == tid) {
+            (items?.project || []).map((item) => {
+                console.log(bool);
+                if (item.id == id) {
+                    if (item?.count < 100 && !bool) {
+                        item.count++;
+                        (student || []).map((i) => {
+                            if (i.netID == sid) {
+                                i?.project.push(item);
+                            }
+                        });
+                    } else {
+                        if (item.count >= 100) {
+                            msg = "选课人数已满";
+                        } else {
+                            msg = "该课程已选";
+                        }
+                    }
+                }
+            })
+        }
+    });
+    (teacher || []).map((items) => {
+        (items.project || []).map((item) => {
+            if (Method.compareDate2(item.StartsignDate, date, item.EndsignDate)) {
+                // console.log(222);
+                project.push(item);
+            }
+        })
+    });
+    console.log(student[0]);
+    return {
+        status: 200,
+        msg: msg,
+        project: project
+    }
+})
+// 自主选课查询
+Mock.mock('/api/student/search', 'post', (req) => {
+    let date = Method.getDate(new Date())?.classdate;
+    let name = JSON.parse(req.body).name;
+    var reg = new RegExp(name);
+    let project = [];
+    (teacher || []).map((items) => {
+        (items.project || []).map((item) => {
+            if (Method.compareDate2(item.StartsignDate, date, item.EndsignDate)) {
+                // console.log(222);
+                if (name && reg.test(item.name)) {
+                    project.push(item);
+                } else if (!name) {
+                    project.push(item);
+                }
+            }
+        })
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        project: project
+    }
+})
+// 学生课程
+Mock.mock('/api/student/project','post',(req)=>{
+    let sid=JSON.parse(req.body).sid;
+    let project;
+    (student||[]).map((item)=>{
+        if(item.netID==sid){
+            project=item.project;
+        }
+    })
+    console.log(project);
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        project: project
     }
 })

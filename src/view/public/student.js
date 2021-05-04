@@ -3,7 +3,7 @@ import '../../styles/ProjectContent.scss';
 import Method from '../public/unit';
 import { useEffect } from 'react';
 
-const ProjectContent = (props) => {
+const StudentProjectContent = (props) => {
   let project = props?.project || [];
   let type = props.type;
   const show = (tid, id) => {
@@ -56,33 +56,13 @@ const ProjectContent = (props) => {
       }
     },
     {
-      title: '状态',
+      title: '成绩',
       dataIndex: 'state',
       key: 'state',
       render: (text, record) => {
-        let state = record?.state;
-        return state == "待报名" ?
-          <div className="state">
-            <div className="state1" />
-            <span>{state}</span>
-          </div>
-          : state == "报名中" ?
-            <div className="state">
-              <div className="state2" />
-              <span>{state}</span>
-            </div> : state == "未开始" ?
-              <div className="state">
-                <div className="state3" />
-                <span>{state}</span>
-              </div> : state == "进行中" ?
-                <div className="state">
-                  <div className="state4" />
-                  <span>{state}</span>
-                </div> :
-                <div className="state">
-                  <div className="state5" />
-                  <span>{state}</span>
-                </div>
+        return (
+          <span>{record?.score||'暂无成绩'}</span>
+        )
       }
     },
     {
@@ -92,7 +72,7 @@ const ProjectContent = (props) => {
       render: (record) => {
         return type == "teacher" ?
           <div className="option">
-            <Button size="small" onClick={() => { show(record.tid,record.id) }}>详情</Button>
+            <Button size="small" onClick={() => { show(record.id) }}>详情</Button>
             {
               record.state == "已结束" ?
                 <div>
@@ -135,4 +115,4 @@ const ProjectContent = (props) => {
     </div>
   )
 }
-export default ProjectContent;
+export default StudentProjectContent;

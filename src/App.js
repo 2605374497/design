@@ -30,6 +30,8 @@ import TeacherAnnounceDetail from './view/teacher/AnnounceDetail';
 import TeacherActiveDetail from './view/teacher/ActiveDetail';
 // 管理员首页
 import AdminIndex from './view/admin/Index';
+// 学生课表
+import StudentProject from './view/student/project';
 
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
         <Route component={AdminIndex} path='/admin/index'></Route>
         
         {/* 学生页面 */}
+        <Route component={StudentProject} path='/student/project'></Route>
         <Route component={Course} path='/student/chance/course'></Route>
         <Route component={Independent} path='/student/chance/independent'></Route>
         <Route component={StudentActiveDetail} path='/student/active/detail'></Route>

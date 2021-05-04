@@ -43,9 +43,9 @@ const Index = () => {
           <Link to="/teacher/class" className="link">
             <div className="drop">课程查询</div>
           </Link>
-          <Link to="/teacher/active" className="link">
+          {/* <Link to="/teacher/active" className="link">
             <div className="drop">教研信息</div>
-          </Link>
+          </Link> */}
           <Button type="text" className="logOut" onClick={logout}>退出</Button>
         </div>
         <div className="content">

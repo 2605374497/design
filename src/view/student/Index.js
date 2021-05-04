@@ -24,11 +24,13 @@ const Index = () => {
   const independent = () => {
     history.push('/student/chance/independent')
   }
+  const select = () => {
+    history.push('/student/project')
+  }
   const query = (
     <Menu>
       <Menu.Item onClick={message}>个人信息查询</Menu.Item>
-      <Menu.Item>成绩查询</Menu.Item>
-      <Menu.Item>学生课表查询</Menu.Item>
+      <Menu.Item onClick={select}>学生课程查询</Menu.Item>
     </Menu>
   );
   const project = (

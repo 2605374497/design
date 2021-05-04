@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProjectContent from '../public/projectContent';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, Button, Divider, Steps,  Modal, Form, Input, DatePicker, TimePicker, BackTop } from 'antd';
+import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input, DatePicker, TimePicker, BackTop } from 'antd';
 import { CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
 import '../../styles/teacher/Project.scss';
 import axios from 'axios';
@@ -183,6 +183,7 @@ const Third = (props) => {
   )
 }
 
+
 const Project = () => {
   const [project, setProject] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -193,6 +194,9 @@ const Project = () => {
   const [back, setBack] = useState([]);
   const [message, setMessage] = useState('');
   const [allProject, setAllProject] = useState([]);
+  const [detail, setDetail] = useState();
+  const [isDetailVisible, setIsDetailVisible] = useState(false);
+
   useEffect(() => {
     axios.post('/api/teacher/project', { sid: sid }).then((res) => {
       setProject(res.data.project);
@@ -270,24 +274,30 @@ const Project = () => {
       handleCancel();
     } else {
       let list = { ...firstContent, ...secondContent, ...remeber, count: 0, tid: sid, id: project?.length + 1 };
-      if (Method.compareDate1(date, list.StartsignDate)) {
-        list.state = "待报名";
-      } else if (Method.compareDate2(list.StartsignDate, date, list.EndsignDate)) {
-        list.state = "报名中";
-      } else if (Method.compareDate2(list.EndsignDate, date, list.StartclassDate)) {
-        list.state = "未开始";
-      } else if (Method.compareDate2(list.StartclassDate, date, list.EndclassDate)) {
-        list.state = "进行中";
-      } else {
-        list.state = "已结束";
-      }
+      // console.log(list, '--list');
+      // if (Method.compareDate1(date, list.StartsignDate)) {
+      //   list.state = "待报名";
+      // } else if (Method.compareDate2(list.StartsignDate, date, list.EndsignDate)) {
+      //   list.state = "报名中";
+      // } else if (Method.compareDate2(list.EndsignDate, date, list.StartclassDate)) {
+      //   list.state = "未开始";
+      // } else if (Method.compareDate2(list.StartclassDate, date, list.EndclassDate)) {
+      //   list.state = "进行中";
+      // } else {
+      //   list.state = "已结束";
+      // }
       axios.post('/api/teacher/create', { list: list, sid: sid }).then((res) => {
         // console.log(res, '--res');
-        setProject(res.data.project);
+        axios.post('/api/teacher/project', { sid: sid }).then((res) => {
+          setProject(res.data.project);
+          // console.log(res);
+        })
+        // setProject(res.data.project);
       })
       // console.log(message, '--message');
       // console.log([list]);
-      setProject([list]);
+      // setProject([list]);
+
       setCurrent(0);
       setIsModalVisible(false);
       setFirstContent({});
@@ -297,6 +307,15 @@ const Project = () => {
   const error = () => {
     setBack([]);
     setIsModalVisible(false);
+  }
+  const onShowDetail = (tid,id) => {
+    axios.post('/api/show/detail', { tid: tid, id: id }).then((res) => {
+      setDetail(res.data.list);
+      setIsDetailVisible(true);
+    })
+  }
+  const handle = () => {
+    setIsDetailVisible(false)
   }
   return (
     <div className="project">
@@ -317,7 +336,7 @@ const Project = () => {
           <Button onClick={addClass} type="primary">添加课程</Button>
         </div>
         <Divider className="divider" />
-        <ProjectContent project={project} type="teacher" />
+        <ProjectContent onShowDetail={onShowDetail} project={project} type="teacher" />
       </div>
       <Modal
         maskClosable={false}
@@ -355,6 +374,18 @@ const Project = () => {
                 error={error}
               />
         }
+      </Modal>
+      <Modal
+        maskClosable={false}
+        title="课程详情"
+        visible={isDetailVisible}
+        // onOk={handleOk}
+        onCancel={handle}
+        footer={[]}
+        // className="dialog"
+        width={window.screen.width * 0.5}
+      >
+        <Detail detail={detail} />
       </Modal>
     </div>
   )

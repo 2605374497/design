@@ -68,6 +68,10 @@ const Independent = () => {
     if (bool) {
       axios.post('/api/delete/class', { sid: sid, id: id }).then((res) => {
         setAddList(res.data.list);
+        axios.post('/api/get/independent', { page: index, pageSize: pageSize, type: type }).then((res) => {
+          setList(res?.data?.Independent)
+          setTotal(res.data.total);
+        })
       })
     } else {
       Message.error('当前不在选课时间范围', 3);
