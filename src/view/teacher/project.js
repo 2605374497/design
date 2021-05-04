@@ -196,6 +196,8 @@ const Project = () => {
   const [allProject, setAllProject] = useState([]);
   const [detail, setDetail] = useState();
   const [isDetailVisible, setIsDetailVisible] = useState(false);
+  const [isScoreVisible, setIsScoreVisible] = useState(false);
+  const [list, setList] = useState();
 
   useEffect(() => {
     axios.post('/api/teacher/project', { sid: sid }).then((res) => {
@@ -308,14 +310,32 @@ const Project = () => {
     setBack([]);
     setIsModalVisible(false);
   }
-  const onShowDetail = (tid,id) => {
+  const onShowDetail = (tid, id) => {
     axios.post('/api/show/detail', { tid: tid, id: id }).then((res) => {
       setDetail(res.data.list);
       setIsDetailVisible(true);
     })
   }
+  const score = (tid, id) => {
+    // console.log(1111);
+    axios.post('/api/get/list', { tid: tid, id: id }).then((res) => {
+      console.log(res, '--res');
+      setList(res.data.list);
+      setIsScoreVisible(true);
+    })
+  }
   const handle = () => {
     setIsDetailVisible(false)
+  }
+  const hidden = () => {
+    setIsScoreVisible(false)
+  }
+  const setScore = (values, tid, id, sid) => {
+    // console.log(values, tid, id, sid);
+    // console.log(tid, id, sid);
+    axios.post('/api/set/score', { values:values, tid: tid, id: id, sid: sid }).then((res) => {
+      console.log(res);
+    })
   }
   return (
     <div className="project">
@@ -336,7 +356,12 @@ const Project = () => {
           <Button onClick={addClass} type="primary">添加课程</Button>
         </div>
         <Divider className="divider" />
-        <ProjectContent onShowDetail={onShowDetail} project={project} type="teacher" />
+        <ProjectContent
+          onShowDetail={onShowDetail}
+          project={project}
+          type="teacher"
+          score={score}
+        />
       </div>
       <Modal
         maskClosable={false}
@@ -386,6 +411,32 @@ const Project = () => {
         width={window.screen.width * 0.5}
       >
         <Detail detail={detail} />
+      </Modal>
+      <Modal
+        maskClosable={false}
+        title="打分"
+        visible={isScoreVisible}
+        // onOk={handleOk}
+        onCancel={hidden}
+        footer={[]}
+        // className="dialog"
+        width={window.screen.width * 0.3}
+      >
+        {
+          (list || []).map((item) => {
+            return (
+              <div className="score">
+                <span>{item?.sname}:</span>
+                <Input.Search
+                  enterButton="确定"
+                  onSearch={(values) => {
+                    setScore(values, item?.tid, item?.id, item?.sid)
+                  }}
+                />
+              </div>
+            )
+          })
+        }
       </Modal>
     </div>
   )

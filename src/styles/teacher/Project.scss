@@ -98,4 +98,10 @@
     text-align: center;
     margin-left: 30px;
   }
+  .score{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 }

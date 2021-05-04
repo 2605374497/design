@@ -12,6 +12,9 @@ const ProjectContent = (props) => {
   const select = (tid, id) => {
     props?.onAddClass(tid, id)
   }
+  const score = (tid, id) => {
+    props?.score(tid, id);
+  }
   const columns = [
     { title: '课程名称', dataIndex: 'name', key: 'name' },
     {
@@ -92,15 +95,15 @@ const ProjectContent = (props) => {
       render: (record) => {
         return type == "teacher" ?
           <div className="option">
-            <Button size="small" onClick={() => { show(record.tid,record.id) }}>详情</Button>
+            <Button size="small" onClick={() => { show(record.tid, record.id) }}>详情</Button>
             {
               record.state == "已结束" ?
                 <div>
-                  <Button size="small" >打分</Button>
+                  <Button size="small" onClick={() => { score(record.tid, record.id) }}>打分</Button>
                   <Button size="small" >查看评价</Button>
                 </div> :
                 <div>
-                  <Button size="small" disabled >打分</Button>
+                  <Button size="small" onClick={() => { score(record.tid, record.id) }} >打分</Button>
                   <Button size="small" disabled >查看评价</Button>
                 </div>
             }

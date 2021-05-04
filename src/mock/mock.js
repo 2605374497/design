@@ -46,7 +46,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
                     ],
                     "address": "123123",
                     "StartsignDate": "2021.05.02",
-                    "EndsignDate": "2021.05.05",
+                    "EndsignDate": "2021.05.06",
                     "StartclassDate": "2021.05.09",
                     "EndclassDate": "2021.05.14",
                     "StartclassTime": "05:00:00",
@@ -75,7 +75,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
                     ],
                     "address": "123123",
                     "StartsignDate": "2021.05.02",
-                    "EndsignDate": "2021.05.05",
+                    "EndsignDate": "2021.05.06",
                     "StartclassDate": "2021.05.09",
                     "EndclassDate": "2021.05.14",
                     "StartclassTime": "05:00:00",
@@ -588,7 +588,7 @@ Mock.mock('/api/add/class', 'post', (req) => {
     let tid = JSON.parse(req.body).tid;
     let id = JSON.parse(req.body).id;
     let sid = JSON.parse(req.body).sid;
-    console.log(sid, id, tid);
+    // console.log(sid, id, tid);
     let bool = false;
     let date = Method.getDate(new Date())?.classdate;
     let already = [], msg = '获取数据成功', project = [];
@@ -666,12 +666,12 @@ Mock.mock('/api/student/search', 'post', (req) => {
     }
 })
 // 学生课程
-Mock.mock('/api/student/project','post',(req)=>{
-    let sid=JSON.parse(req.body).sid;
+Mock.mock('/api/student/project', 'post', (req) => {
+    let sid = JSON.parse(req.body).sid;
     let project;
-    (student||[]).map((item)=>{
-        if(item.netID==sid){
-            project=item.project;
+    (student || []).map((item) => {
+        if (item.netID == sid) {
+            project = item.project;
         }
     })
     console.log(project);
@@ -679,5 +679,55 @@ Mock.mock('/api/student/project','post',(req)=>{
         status: 200,
         msg: '获取数据成功',
         project: project
+    }
+})
+// 获取选择该课程的学生信息
+Mock.mock('/api/get/list', 'post', (req) => {
+    let id = JSON.parse(req?.body).id;
+    let tid = JSON.parse(req?.body).tid;
+    let list = [];
+    (student || []).map((items) => {
+        (items?.project || []).map((item) => {
+            if (item.tid == tid && item.id == id) {
+                let data = { ...item }
+                data.sname = items?.name;
+                data.sid = items?.netID;
+                list.push(data);
+            }
+        })
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 打分
+Mock.mock('/api/set/score', 'post', (req) => {
+    let id = JSON.parse(req?.body).id;
+    let tid = JSON.parse(req?.body).tid;
+    let sid = JSON.parse(req?.body).sid;
+    let values = JSON.parse(req?.body).values;
+    // console.log(id, tid, sid, values);
+    let list = [];
+    (student || []).map((items) => {
+        if (items.netID == sid) {
+            console.log(2222);
+            (items?.project || []).map((item) => {
+                console.log(333);
+                if (item.tid == tid && item.id == id) {
+                    console.log(444);
+                    item.score = values;
+                    console.log(item,'--item');
+                    // student[index]?.project[i].score = values;
+                }
+            })
+        }
+    });
+    // console.log(student);
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: student
     }
 })
