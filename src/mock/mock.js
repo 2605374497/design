@@ -15,7 +15,9 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'password': 'student',
             'major': '通信工程',
             'independent': [],
-            'phone': '@phone',
+            'email': Mock.mock('@EMAIL()'),
+            'sex': Mock.Random.integer(0, 1),
+            'phone': /^1[0-9]{10}$/,
             'project': [],
         }
     ],
@@ -26,7 +28,9 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'password': 'teacher',
             'name': '@cname',
             'age|30-55': 20,
-            'phone': '@phone',
+            'email': Mock.mock('@EMAIL()'),
+            'sex': Mock.Random.integer(0, 1),
+            'phone': /^1[0-9]{10}$/,
             'address': '@city(true)',
             'project': [
                 {
@@ -806,5 +810,45 @@ Mock.mock('/api/get/appraise', 'post', (req) => {
         status: 200,
         msg: '获取数据成功',
         result: appraise
+    }
+})
+// 教师修改信息
+Mock.mock('/api/teacher/setMessage', 'post', (req) => {
+    let values = JSON.parse(req.body).values;
+    let tid = JSON.parse(req.body).tid;
+    console.log(values);
+    console.log(tid);
+    (teacher || []).map((item) => {
+        if (item?.netID == tid) {
+            item = { ...values };
+            console.log(item, '--item');
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        teacher: teacher
+    }
+})
+// 教师修改密码
+Mock.mock('/api/set/password', 'post', (req) => {
+    let password = JSON.parse(req.body).password;
+    let tid = JSON.parse(req.body).tid;
+    let pwd = JSON.parse(req.body).newPwd;
+    let msg;
+    (teacher || []).map((item) => {
+        if (item?.netID == tid) {
+            if (item.password == password) {
+                item.password = pwd;
+                msg = 1;
+            } else {
+                msg = 0;
+            }
+        }
+    })
+    return {
+        status: 200,
+        msg: msg,
+        teacher: teacher
     }
 })

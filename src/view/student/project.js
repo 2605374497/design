@@ -44,6 +44,7 @@ const Project = () => {
       setIsAppraiseVisible(false);
     })
   }
+  
   return (
     <div className="project">
       <div className="container">
