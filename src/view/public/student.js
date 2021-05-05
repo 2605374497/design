@@ -12,6 +12,9 @@ const StudentProjectContent = (props) => {
   const select = (tid, id) => {
     props?.onAddClass(tid, id)
   }
+  const appraise = (tid, id) => {
+    props?.appraise(tid, id);
+  }
   const columns = [
     { title: '课程名称', dataIndex: 'name', key: 'name' },
     {
@@ -61,7 +64,7 @@ const StudentProjectContent = (props) => {
       key: 'state',
       render: (text, record) => {
         return (
-          <span>{record?.score||'暂无成绩'}</span>
+          <span>{record?.score || '暂无成绩'}</span>
         )
       }
     },
@@ -91,10 +94,10 @@ const StudentProjectContent = (props) => {
               {
                 record.state == "已结束" ?
                   <div>
-                    <Button size="small" >评价</Button>
+                    <Button size="small" onClick={() => { appraise(record.tid, record.id) }}>评价</Button>
                   </div> :
                   <div>
-                    <Button size="small" disabled>评价</Button>
+                    <Button size="small" onClick={() => { appraise(record.tid, record.id) }}>评价</Button>
                   </div>
               }
             </div> :

@@ -9,7 +9,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
         {
             'netID|+1': 17050518101,
             'name': '@cname',
-            'address': '@city',
+            'address': '@city(true)',
             'belong': '数计学院',
             'age|18-22': 20,
             'password': 'student',
@@ -26,6 +26,8 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'password': 'teacher',
             'name': '@cname',
             'age|30-55': 20,
+            'phone': '@phone',
+            'address': '@city(true)',
             'project': [
                 {
                     "name": "教师1测试课程1",
@@ -380,94 +382,94 @@ Mock.mock('/api/get/search', 'post', (req) => {
         total: show.length,
     }
 })
-// // 公选课数据
-// Mock.mock('/api/get/course', 'post', (req) => {
-//     let page = JSON.parse(req.body).page;
-//     let pageSize = JSON.parse(req.body).pageSize || 5;
-//     let list = [];
-//     for (let i = page * pageSize; i < (page + 1) * pageSize && i < Course.length; i++) {
-//         list.push(Course[i]);
-//     }
-//     return {
-//         status: 200,
-//         msg: '获取数据成功',
-//         Course: list,
-//         total: Course.length,
-//     }
-// })
-// // 添加公选课程
-// Mock.mock('/api/get/addCourse', 'post', (req) => {
-//     let id = JSON.parse(req.body).id;
-//     let sid = JSON.parse(req.body).sid;
-//     let list, msg, index;
-//     student.map((item, i) => {
-//         if (item.netID == sid) {
-//             list = item.course;
-//             index = i;
-//         }
-//     })
-//     if (list.length < 1) {
-//         Course.map((item) => {
-//             if (item.id == id) {
-//                 if (item.total < 150) {
-//                     list.push(item);
-//                     item.total++;
-//                     msg = 200;
-//                 } else {
-//                     msg = "该门课程剩余量为0";
-//                 }
-//             }
-//         });
-//     } else {
-//         msg = '已选择课程'
-//     }
-//     return {
-//         status: 200,
-//         msg: msg,
-//         list: list
-//     }
-// })
-// // 获取已选公选课程
-// Mock.mock('/api/get/courselist', 'post', (req) => {
-//     let sid = JSON.parse(req.body).sid;
-//     let list;
-//     student.map((item) => {
-//         if (item.netID == sid) {
-//             list = item.course;
-//         }
-//     })
-//     return {
-//         status: 200,
-//         msg: '获取数据成功',
-//         list: list
-//     }
-// })
-// // 删除公选课程
-// Mock.mock('/api/delete/course', 'post', (req) => {
-//     let id = JSON.parse(req.body).id;
-//     let sid = JSON.parse(req.body).sid;
-//     let list;
-//     (student || []).map((item) => {
-//         if (item?.netID == sid) {
-//             list = item?.course;
-//             (list || []).map((items, index) => {
-//                 if (items.id == id) {
-//                     list.splice(index, 1);
-//                     (Course || []).map((pro, i) => {
-//                         if (pro?.id == id) {
-//                             pro.total -= 1;
-//                         }
-//                     })
-//                 }
-//             })
-//         }
-//     })
-//     return {
-//         status: 200,
-//         msg: '获取数据成功',
-//         list: list
-//     }
-// })
+// 公选课数据
+Mock.mock('/api/get/course', 'post', (req) => {
+    let page = JSON.parse(req.body).page;
+    let pageSize = JSON.parse(req.body).pageSize || 5;
+    let list = [];
+    for (let i = page * pageSize; i < (page + 1) * pageSize && i < Course.length; i++) {
+        list.push(Course[i]);
+    }
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        Course: list,
+        total: Course.length,
+    }
+})
+// 添加公选课程
+Mock.mock('/api/get/addCourse', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    let list, msg, index;
+    student.map((item, i) => {
+        if (item.netID == sid) {
+            list = item.course;
+            index = i;
+        }
+    })
+    if (list.length < 1) {
+        Course.map((item) => {
+            if (item.id == id) {
+                if (item.total < 150) {
+                    list.push(item);
+                    item.total++;
+                    msg = 200;
+                } else {
+                    msg = "该门课程剩余量为0";
+                }
+            }
+        });
+    } else {
+        msg = '已选择课程'
+    }
+    return {
+        status: 200,
+        msg: msg,
+        list: list
+    }
+})
+// 获取已选公选课程
+Mock.mock('/api/get/courselist', 'post', (req) => {
+    let sid = JSON.parse(req.body).sid;
+    let list;
+    student.map((item) => {
+        if (item.netID == sid) {
+            list = item.course;
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 删除公选课程
+Mock.mock('/api/delete/course', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let sid = JSON.parse(req.body).sid;
+    let list;
+    (student || []).map((item) => {
+        if (item?.netID == sid) {
+            list = item?.course;
+            (list || []).map((items, index) => {
+                if (items.id == id) {
+                    list.splice(index, 1);
+                    (Course || []).map((pro, i) => {
+                        if (pro?.id == id) {
+                            pro.total -= 1;
+                        }
+                    })
+                }
+            })
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
 // 获取选课时间
 Mock.mock('/api/get/time', 'get', () => {
     return {
@@ -709,16 +711,16 @@ Mock.mock('/api/set/score', 'post', (req) => {
     let sid = JSON.parse(req?.body).sid;
     let values = JSON.parse(req?.body).values;
     // console.log(id, tid, sid, values);
-    let list = [];
+    // let list = [];
     (student || []).map((items) => {
         if (items.netID == sid) {
-            console.log(2222);
+            // console.log(2222);
             (items?.project || []).map((item) => {
-                console.log(333);
+                // console.log(333);
                 if (item.tid == tid && item.id == id) {
-                    console.log(444);
+                    // console.log(444);
                     item.score = values;
-                    console.log(item,'--item');
+                    // console.log(item,'--item');
                     // student[index]?.project[i].score = values;
                 }
             })
@@ -729,5 +731,80 @@ Mock.mock('/api/set/score', 'post', (req) => {
         status: 200,
         msg: '获取数据成功',
         list: student
+    }
+})
+// 获取评价课程
+Mock.mock('/api/student/appraise', 'post', (req) => {
+    let id = JSON.parse(req?.body).id;
+    let tid = JSON.parse(req?.body).tid;
+    let list;
+    (teacher || []).map((items) => {
+        if (items.netID == tid) {
+            (items?.project || []).map((item) => {
+                if (item.id == id) {
+                    console.log(item);
+                    list = item;
+                }
+            })
+        }
+    });
+    // console.log(student);
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 评价课程
+Mock.mock('/api/set/appraise', 'post', (req) => {
+    let id = JSON.parse(req?.body).id;
+    let tid = JSON.parse(req?.body).tid;
+    let sid = JSON.parse(req?.body).sid;
+    let value = JSON.parse(req?.body).value;
+    // console.log(req);
+    let list;
+    (student || []).map((items) => {
+        if (items.netID == sid) {
+            (items?.project || []).map((item) => {
+                if (item.tid == tid && item.id == id) {
+                    item.appraise = value;
+                    list = item;
+                }
+            })
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 获取学生评价
+Mock.mock('/api/get/appraise', 'post', (req) => {
+    console.log(req);
+    let id = JSON.parse(req?.body).id;
+    let tid = JSON.parse(req?.body).tid;
+    let appraise = [0, 0, 0, 0, 0];
+    (student || []).map((items) => {
+        (items?.project || []).map((item) => {
+            if (item?.tid == tid && item?.id == id) {
+                if (item.appraise == 1) {
+                    appraise[0]++;
+                } else if (item.appraise == 2) {
+                    appraise[1]++;
+                } else if (item.appraise == 3) {
+                    appraise[2]++;
+                } else if (item.appraise == 4) {
+                    appraise[3]++;
+                } else if (item.appraise == 5) {
+                    appraise[4]++;
+                }
+            }
+        })
+    });
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        result: appraise
     }
 })

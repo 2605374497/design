@@ -197,7 +197,15 @@ const Project = () => {
   const [detail, setDetail] = useState();
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isScoreVisible, setIsScoreVisible] = useState(false);
+  const [isAppraiseVisible, setIsAppraiseVisible] = useState(false);
   const [list, setList] = useState();
+  const [appraise, setAppraise] = useState();
+
+
+  const layout = {
+    labelCol: { span: 4 },
+    wrapperCol: { span: 16 },
+  };
 
   useEffect(() => {
     axios.post('/api/teacher/project', { sid: sid }).then((res) => {
@@ -207,6 +215,9 @@ const Project = () => {
       // console.log(res, 'res');
       setAllProject(res.data.project);
     })
+    let load = [0, 0, 0, 0, 0];
+    setAppraise(load);
+    // console.log(appraise);
   }, []);
   const sid = localStorage.getItem('id');
   const addClass = () => {
@@ -271,7 +282,7 @@ const Project = () => {
     setSecondContent(values);
   }
   const create = () => {
-    let date = Method.getDate(new Date())?.classdate;
+    // let date = Method.getDate(new Date())?.classdate;
     if (back?.length > 0 || message != "") {
       handleCancel();
     } else {
@@ -319,7 +330,7 @@ const Project = () => {
   const score = (tid, id) => {
     // console.log(1111);
     axios.post('/api/get/list', { tid: tid, id: id }).then((res) => {
-      console.log(res, '--res');
+      // console.log(res, '--res');
       setList(res.data.list);
       setIsScoreVisible(true);
     })
@@ -333,10 +344,27 @@ const Project = () => {
   const setScore = (values, tid, id, sid) => {
     // console.log(values, tid, id, sid);
     // console.log(tid, id, sid);
-    axios.post('/api/set/score', { values:values, tid: tid, id: id, sid: sid }).then((res) => {
+    axios.post('/api/set/score', { values: values, tid: tid, id: id, sid: sid }).then((res) => {
       console.log(res);
     })
   }
+  const onAppraise = (tid, id) => {
+    // axios.post('/api/show/detail', { tid: tid, id: id }).then((res) => {
+    //   setDetail(res.data.list);
+    //   setIsDetailVisible(true);
+    // })
+    // console.log(tid, id);
+    axios.post('/api/get/appraise', { tid: tid, id: id }).then((res) => {
+      // console.log(res);
+      console.log(res);
+      setAppraise(res?.data?.result);
+      setIsAppraiseVisible(true);
+    })
+  }
+  const appraiseHidden = () => {
+    setIsAppraiseVisible(false);
+  }
+  console.log(appraise);
   return (
     <div className="project">
       <div className="container">
@@ -361,6 +389,7 @@ const Project = () => {
           project={project}
           type="teacher"
           score={score}
+          appraise={onAppraise}
         />
       </div>
       <Modal
@@ -438,6 +467,69 @@ const Project = () => {
           })
         }
       </Modal>
+
+      <Modal
+        maskClosable={false}
+        title="学生评价"
+        visible={isAppraiseVisible}
+        // onOk={handleOk}
+        onCancel={appraiseHidden}
+        footer={[]}
+        // className="dialog"
+        width={window.screen.width * 0.3}
+      >
+        <Form
+          initialValues={{ remember: true }}
+          className="form"
+          {...layout}
+          style={{ margin: 0 }}
+        >
+          <Form.Item
+            label="等级"
+          >
+            <span>人数</span>
+          </Form.Item>
+          <Form.Item
+            name="A"
+            label="满意"
+            initialValue={appraise ? appraise[0] : 0}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="B"
+            label="较满意"
+            initialValue={appraise ? appraise[1] : 0}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="C"
+            label="一般"
+            initialValue={appraise ? appraise[2] : 0}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="D"
+            label="较差"
+            initialValue={appraise ? appraise[3] : 0}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="E"
+            label="特别差"
+            initialValue={appraise ? appraise[4] : 0}
+          >
+            <Input disabled />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+
+
+
     </div>
   )
 }

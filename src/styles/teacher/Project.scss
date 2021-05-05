@@ -104,4 +104,13 @@
     justify-content: center;
     align-items: center;
   }
+  .appraise{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .form{
+    margin: 0;
+  }
 }
