@@ -131,7 +131,7 @@ const Login = () => {
           <Radio.Group value="student" className="radio" name="radiogroup">
             <Radio value="student" className="radio">学生</Radio>
             <Radio value="teacher" className="radio">教师</Radio>
-            {/* <Radio value="admin" className="radio">管理员</Radio> */}
+            <Radio value="admin" className="radio">管理员</Radio>
           </Radio.Group>
         </FormItem>
         <FormItem>

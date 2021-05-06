@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './view/Login';
 // 学生首页
 import StudentIndex from './view/student/Index';
+// 学生课表
+import StudentProject from './view/student/project';
 // 通知公告
 import StudentAnnounce from './view/student/Announce';
 // 教务动态
@@ -30,8 +32,15 @@ import TeacherAnnounceDetail from './view/teacher/AnnounceDetail';
 import TeacherActiveDetail from './view/teacher/ActiveDetail';
 // 管理员首页
 import AdminIndex from './view/admin/Index';
-// 学生课表
-import StudentProject from './view/student/project';
+// 通知公告
+import AdminAnnounce from './view/admin/Announce';
+// 教务动态
+import AdminActive from './view/admin/Active';
+// 公告细节
+import AdminAnnounceDetail from './view/admin/AnnounceDetail';
+// 动态细节
+import AdminActiveDetail from './view/admin/ActiveDetail';
+
 
 
 function App() {
@@ -47,7 +56,10 @@ function App() {
         <Route component={TeacherIndex} path='/teacher/index'></Route>
         {/* 管理员页面 */}
         <Route component={AdminIndex} path='/admin/index'></Route>
-        
+        <Route component={AdminActiveDetail} path='/admin/active/detail'></Route>
+        <Route component={AdminAnnounceDetail} path='/admin/announce/detail'></Route>
+        <Route component={AdminActive} path='/admin/active'></Route>
+        <Route component={AdminAnnounce} path='/admin/announce'></Route>
         {/* 学生页面 */}
         <Route component={StudentProject} path='/student/project'></Route>
         <Route component={Course} path='/student/chance/course'></Route>

@@ -291,8 +291,6 @@ const Index = () => {
             </Form.Item>
           </Form>
         </Modal>
-
-
         <Modal
           maskClosable={false}
           title="修改密码"
@@ -322,6 +320,7 @@ const Index = () => {
               label="新密码"
               name="newPwd"
               className="appraise"
+              rules={[{ required: true, message: 'Please input your password!' }]}
             // initialValue={Message ? Message?.name : ''}
             >
               <Input.Password placeholder="请输入新密码" />

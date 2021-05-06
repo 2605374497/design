@@ -3,10 +3,10 @@ import Method from '../view/public/unit';
 
 Mock.Random.extend({
     phone: function () {
-      var phonePrefixs = ['132', '135', '189'] // 自己写前缀哈
-      return this.pick(phonePrefixs) + Mock.mock(/\d{8}/) //Number()
+        var phonePrefixs = ['132', '135', '189'] // 自己写前缀哈
+        return this.pick(phonePrefixs) + Mock.mock(/\d{8}/) //Number()
     }
-  })
+})
 const { admin, Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
     // 选课时间
     'Time': new Date('2021/5/26 23:21:21'),
@@ -128,7 +128,7 @@ Mock.mock('/api/get/announce', 'post', (req) => {
 })
 // 教务动态
 Mock.mock('/api/get/active', 'post', (req) => {
-    let page = JSON.parse(req.body).page;
+    let page = JSON.parse(req.body).page || 0;
     let pageSize = JSON.parse(req.body).pageSize || 5;
     let list = [];
     for (let i = page * pageSize; i < (page + 1) * pageSize && i < active.length; i++) {
@@ -792,6 +792,7 @@ Mock.mock('/api/set/studentPassword', 'post', (req) => {
         student: student
     }
 })
+// 学生修改信息
 Mock.mock('/api/student/setMessage', 'post', (req) => {
     let values = JSON.parse(req.body).values;
     let tid = JSON.parse(req.body).tid;
@@ -807,5 +808,29 @@ Mock.mock('/api/student/setMessage', 'post', (req) => {
         status: 200,
         msg: '获取数据成功',
         student: student
+    }
+})
+// 添加动态
+Mock.mock('/api/add/active', 'post', (req) => {
+    let values = JSON.parse(req.body).values;
+    let id = active.length + 1;
+    values.id = id;
+    active.push(values);
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        active: active
+    }
+})
+// 添加通知
+Mock.mock('/api/add/announce', 'post', (req) => {
+    let values = JSON.parse(req.body).values;
+    let id = active.length + 1;
+    values.id = id;
+    announce.push(values);
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        announce: announce
     }
 })
