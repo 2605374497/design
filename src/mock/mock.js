@@ -1,6 +1,12 @@
 import Mock from 'mockjs';
 import Method from '../view/public/unit';
 
+Mock.Random.extend({
+    phone: function () {
+      var phonePrefixs = ['132', '135', '189'] // 自己写前缀哈
+      return this.pick(phonePrefixs) + Mock.mock(/\d{8}/) //Number()
+    }
+  })
 const { admin, Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
     // 选课时间
     'Time': new Date('2021/5/26 23:21:21'),
@@ -17,7 +23,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'independent': [],
             'email': Mock.mock('@EMAIL()'),
             'sex': Mock.Random.integer(0, 1),
-            'phone': /^1[0-9]{10}$/,
+            'phone': '@phone',
             'project': [],
         }
     ],
@@ -30,97 +36,9 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'age|30-55': 20,
             'email': Mock.mock('@EMAIL()'),
             'sex': Mock.Random.integer(0, 1),
-            'phone': /^1[0-9]{10}$/,
+            'phone': '@phone',
             'address': '@city(true)',
-            'project': [
-                {
-                    "name": "教师1测试课程1",
-                    "description": "123123",
-                    "detail": "123",
-                    "phone": "13732907822",
-                    "signDate": [
-                        "2021-05-02T14:10:21.770Z",
-                        "2021-05-04T14:10:21.770Z"
-                    ],
-                    "classDate": [
-                        "2021-05-09T14:10:24.311Z",
-                        "2021-05-14T14:10:24.311Z"
-                    ],
-                    "classTime": [
-                        "2021-05-02T21:00:00.046Z",
-                        "2021-05-02T22:00:00.335Z"
-                    ],
-                    "address": "123123",
-                    "StartsignDate": "2021.05.02",
-                    "EndsignDate": "2021.05.06",
-                    "StartclassDate": "2021.05.09",
-                    "EndclassDate": "2021.05.14",
-                    "StartclassTime": "05:00:00",
-                    "EndclassTime": "06:00:00",
-                    "count": 0,
-                    'tid|+1': 111111,
-                    "id": 1,
-                    "state": "报名中"
-                },
-                {
-                    "name": "教师2测试课程1",
-                    "description": "123123",
-                    "detail": "123",
-                    "phone": "13732907822",
-                    "signDate": [
-                        "2021-05-02T14:10:21.770Z",
-                        "2021-05-04T14:10:21.770Z"
-                    ],
-                    "classDate": [
-                        "2021-05-09T14:10:24.311Z",
-                        "2021-05-14T14:10:24.311Z"
-                    ],
-                    "classTime": [
-                        "2021-05-02T21:00:00.046Z",
-                        "2021-05-02T22:00:00.335Z"
-                    ],
-                    "address": "123123",
-                    "StartsignDate": "2021.05.02",
-                    "EndsignDate": "2021.05.06",
-                    "StartclassDate": "2021.05.09",
-                    "EndclassDate": "2021.05.14",
-                    "StartclassTime": "05:00:00",
-                    "EndclassTime": "06:00:00",
-                    "count": 0,
-                    'tid|+1': 111111,
-                    "id": 1,
-                    "state": "报名中"
-                },
-                {
-                    "name": "12312",
-                    "description": "123123",
-                    "detail": "123",
-                    "phone": "13732907822",
-                    "signDate": [
-                        "2021-05-19T14:10:41.496Z",
-                        "2021-05-20T14:10:41.496Z"
-                    ],
-                    "classDate": [
-                        "2021-05-31T14:10:43.833Z",
-                        "2021-06-05T14:10:43.833Z"
-                    ],
-                    "classTime": [
-                        "2021-05-02T17:00:00.991Z",
-                        "2021-05-02T18:00:00.254Z"
-                    ],
-                    "address": "123123",
-                    "StartsignDate": "2021.05.19",
-                    "EndsignDate": "2021.05.20",
-                    "StartclassDate": "2021.05.31",
-                    "EndclassDate": "2021.06.05",
-                    "StartclassTime": "01:00:00",
-                    "EndclassTime": "02:00:00",
-                    "count": 0,
-                    'tid|+1': 111111,
-                    "id": 2,
-                    "state": "待报名"
-                }
-            ],
+            'project': [],
             'belong|1': ['音舞学院', '数计学院', '医学院', '文传学院', '体育学院'],
         }
     ],
@@ -546,8 +464,8 @@ Mock.mock('/api/teacher/create', 'post', (req) => {
 Mock.mock('/api/show/detail', 'post', (req) => {
     let tid = JSON.parse(req.body).tid;
     let id = JSON.parse(req.body).id;
-    console.log(tid);
-    console.log(id);
+    // console.log(tid);
+    // console.log(id);
     let list;
     (teacher || []).map((items) => {
         if (items.netID == tid) {
@@ -612,7 +530,7 @@ Mock.mock('/api/add/class', 'post', (req) => {
     (teacher || []).map((items) => {
         if (items?.netID == tid) {
             (items?.project || []).map((item) => {
-                console.log(bool);
+                // console.log(bool);
                 if (item.id == id) {
                     if (item?.count < 100 && !bool) {
                         item.count++;
@@ -640,7 +558,7 @@ Mock.mock('/api/add/class', 'post', (req) => {
             }
         })
     });
-    console.log(student[0]);
+    // console.log(student[0]);
     return {
         status: 200,
         msg: msg,
@@ -680,7 +598,7 @@ Mock.mock('/api/student/project', 'post', (req) => {
             project = item.project;
         }
     })
-    console.log(project);
+    // console.log(project);
     return {
         status: 200,
         msg: '获取数据成功',
@@ -746,7 +664,7 @@ Mock.mock('/api/student/appraise', 'post', (req) => {
         if (items.netID == tid) {
             (items?.project || []).map((item) => {
                 if (item.id == id) {
-                    console.log(item);
+                    // console.log(item);
                     list = item;
                 }
             })
@@ -785,7 +703,7 @@ Mock.mock('/api/set/appraise', 'post', (req) => {
 })
 // 获取学生评价
 Mock.mock('/api/get/appraise', 'post', (req) => {
-    console.log(req);
+    // console.log(req);
     let id = JSON.parse(req?.body).id;
     let tid = JSON.parse(req?.body).tid;
     let appraise = [0, 0, 0, 0, 0];
@@ -816,12 +734,12 @@ Mock.mock('/api/get/appraise', 'post', (req) => {
 Mock.mock('/api/teacher/setMessage', 'post', (req) => {
     let values = JSON.parse(req.body).values;
     let tid = JSON.parse(req.body).tid;
-    console.log(values);
-    console.log(tid);
+    // console.log(values);
+    // console.log(tid);
     (teacher || []).map((item) => {
         if (item?.netID == tid) {
             item = { ...values };
-            console.log(item, '--item');
+            // console.log(item, '--item');
         }
     })
     return {
@@ -850,5 +768,44 @@ Mock.mock('/api/set/password', 'post', (req) => {
         status: 200,
         msg: msg,
         teacher: teacher
+    }
+})
+// 学生修改密码
+Mock.mock('/api/set/studentPassword', 'post', (req) => {
+    let password = JSON.parse(req.body).password;
+    let tid = JSON.parse(req.body).tid;
+    let pwd = JSON.parse(req.body).newPwd;
+    let msg;
+    (student || []).map((item) => {
+        if (item?.netID == tid) {
+            if (item.password == password) {
+                item.password = pwd;
+                msg = 1;
+            } else {
+                msg = 0;
+            }
+        }
+    })
+    return {
+        status: 200,
+        msg: msg,
+        student: student
+    }
+})
+Mock.mock('/api/student/setMessage', 'post', (req) => {
+    let values = JSON.parse(req.body).values;
+    let tid = JSON.parse(req.body).tid;
+    // console.log(values);
+    // console.log(tid);
+    (student || []).map((item) => {
+        if (item?.netID == tid) {
+            item = { ...values };
+            // console.log(item, '--item');
+        }
+    })
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        student: student
     }
 })

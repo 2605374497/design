@@ -3,7 +3,7 @@ import { Form, DatePicker, Input } from 'antd';
 import axios from 'axios';
 
 const Detail = (props) => {
-  console.log(props);
+  // console.log(props);
   const detail = props?.detail;
 
   return (

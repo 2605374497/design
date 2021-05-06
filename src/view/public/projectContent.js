@@ -106,8 +106,8 @@ const ProjectContent = (props) => {
                   <Button size="small" onClick={() => { appraise(record.tid, record.id) }}>查看评价</Button>
                 </div> :
                 <div>
-                  <Button size="small" onClick={() => { score(record.tid, record.id) }} >打分</Button>
-                  <Button size="small" onClick={() => { appraise(record.tid, record.id) }} >查看评价</Button>
+                  <Button size="small" disabled onClick={() => { score(record.tid, record.id) }} >打分</Button>
+                  <Button size="small" disabled onClick={() => { appraise(record.tid, record.id) }} >查看评价</Button>
                 </div>
             }
           </div> :

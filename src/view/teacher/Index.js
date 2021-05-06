@@ -3,7 +3,7 @@ import '../../styles/teacher/Index.scss';
 import { Button, Divider, Modal, Form, Input, Message } from 'antd';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
-import CountDown from '../public/countdown'
+import CountDown from '../public/countdown';
 
 
 const Index = () => {
@@ -54,11 +54,12 @@ const Index = () => {
   };
   const set = (values) => {
     if (values?.newPwd == values?.pwdAgain && values?.newPwd != '') {
-      axios.post('/api/set/password',{tid:isLogin,password:values?.password,newPwd:values?.newPwd}).then((res)=>{
-        if(res?.data.msg==0){
+      axios.post('/api/set/password', { tid: isLogin, password: values?.password, newPwd: values?.newPwd }).then((res) => {
+        if (res?.data.msg == 0) {
           Message.error('旧密码错误,请重试', 3);
-        }else{
+        } else {
           Message.success('修改成功，请返回登录页面', 3);
+          localStorage.removeItem('id');
           history.push('/');
         }
       })
@@ -74,6 +75,7 @@ const Index = () => {
       axios.post('/api/teacher/setMessage', { values: values, tid: isLogin }).then((res) => {
         // console.log(res);
         setBool(true);
+        setType('show')
       })
     }
   }
@@ -204,6 +206,16 @@ const Index = () => {
               name="email"
               label="邮箱"
               className="appraise"
+              rules={[
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ]}
               initialValue={teacherMessage ? teacherMessage?.email : ''}
             >
               <Input placeholder="请输入院系" disabled={bool} />
@@ -253,7 +265,7 @@ const Index = () => {
           <Form
             className="form"
             {...layout}
-            // name="name"
+            // name="teacher"
             initialValues={{ remember: true }}
             onFinish={set}
             style={{ margin: 0 }}
@@ -262,32 +274,31 @@ const Index = () => {
               label="旧密码"
               name="password"
               className="appraise"
-            // initialValue={Message ? Message?.netID : ''}
+            // initialValue={''}
             >
-              <Input.password placeholder="请输入旧密码" />
+              <Input.Password placeholder="请输入旧密码" />
             </Form.Item>
             <Form.Item
               label="新密码"
               name="newPwd"
               className="appraise"
-            // initialValue={Message ? Message?.name : ''}
+              rules={[{ required: true, message: 'Please input your password!' }]}
             >
-              <Input.password placeholder="请输入新密码" />
+              <Input.Password placeholder="请输入新密码" />
             </Form.Item>
             <Form.Item
               name="pwdAgain"
               label="确认密码"
               className="appraise"
-            // initialValue={Message ? Message?.belong : ''}
+            // initialValue={''}
             >
-              <Input.password placeholder="请确认密码" />
+              <Input.Password placeholder="请确认密码" />
             </Form.Item>
             <Form.Item wrapperCol={{ span: 24 }}>
               <Button type="primary" htmlType="submit" block>确定</Button>
             </Form.Item>
           </Form>
         </Modal>
-
       </div>
     );
   } else {
@@ -295,4 +306,5 @@ const Index = () => {
     return null
   }
 }
+
 export default Index;

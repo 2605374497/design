@@ -345,7 +345,7 @@ const Project = () => {
     // console.log(values, tid, id, sid);
     // console.log(tid, id, sid);
     axios.post('/api/set/score', { values: values, tid: tid, id: id, sid: sid }).then((res) => {
-      console.log(res);
+      // console.log(res);
     })
   }
   const onAppraise = (tid, id) => {
@@ -356,7 +356,7 @@ const Project = () => {
     // console.log(tid, id);
     axios.post('/api/get/appraise', { tid: tid, id: id }).then((res) => {
       // console.log(res);
-      console.log(res);
+      // console.log(res);
       setAppraise(res?.data?.result);
       setIsAppraiseVisible(true);
     })
@@ -364,7 +364,7 @@ const Project = () => {
   const appraiseHidden = () => {
     setIsAppraiseVisible(false);
   }
-  console.log(appraise);
+  // console.log(appraise);
   return (
     <div className="project">
       <div className="container">
