@@ -3,8 +3,8 @@ import Method from '../view/public/unit';
 
 Mock.Random.extend({
     phone: function () {
-        var phonePrefixs = ['132', '135', '189'] // 自己写前缀哈
-        return this.pick(phonePrefixs) + Mock.mock(/\d{8}/) //Number()
+        var phonePrefixs = ['132', '135', '189']
+        return this.pick(phonePrefixs) + Mock.mock(/\d{8}/)
     }
 })
 const { admin, Time, student, active, teacher, announce, Independent, Course } = Mock.mock({
@@ -22,7 +22,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'major': '通信工程',
             'independent': [],
             'email': Mock.mock('@EMAIL()'),
-            'sex': Mock.Random.integer(0, 1),
+            'sex|1': [0, 1],
             'phone': '@phone',
             'project': [],
         }
@@ -35,7 +35,7 @@ const { admin, Time, student, active, teacher, announce, Independent, Course } =
             'name': '@cname',
             'age|30-55': 20,
             'email': Mock.mock('@EMAIL()'),
-            'sex': Mock.Random.integer(0, 1),
+            'sex|1': [0, 1],
             'phone': '@phone',
             'address': '@city(true)',
             'project': [],
@@ -598,7 +598,20 @@ Mock.mock('/api/student/project', 'post', (req) => {
             project = item.project;
         }
     })
-    // console.log(project);
+    project.map((list) => {
+        let date = Method.getDate(new Date())?.classdate;
+        if (Method.compareDate1(date, list.StartsignDate)) {
+            list.state = "待报名";
+        } else if (Method.compareDate2(list.StartsignDate, date, list.EndsignDate)) {
+            list.state = "报名中";
+        } else if (Method.compareDate2(list.EndsignDate, date, list.StartclassDate)) {
+            list.state = "未开始";
+        } else if (Method.compareDate2(list.StartclassDate, date, list.EndclassDate)) {
+            list.state = "进行中";
+        } else {
+            list.state = "已结束";
+        }
+    })
     return {
         status: 200,
         msg: '获取数据成功',
@@ -832,5 +845,121 @@ Mock.mock('/api/add/announce', 'post', (req) => {
         status: 200,
         msg: '获取数据成功',
         announce: announce
+    }
+})
+// 获取学生个人信息
+Mock.mock('/api/admin/student', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let list;
+    (student || []).map((item) => {
+        if (item.netID == id) {
+            list = item;
+        }
+    });
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 查询学生个人信息
+Mock.mock('/api/admin/searchstudent', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let list = [];
+    if (id) {
+        (student || []).map((item) => {
+            if (item.netID == id) {
+                list.push(item);
+            }
+        });
+    } else {
+        list = student
+    }
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 学生录入
+Mock.mock('/api/set/student', 'post', (req) => {
+    let values = JSON.parse(req.body).values;
+    let bool = true;
+    let msg;
+    (student || []).map((item) => {
+        if (item.netID == values.netID) {
+            bool = false;
+            msg = "该id已存在"
+        }
+    })
+    if (bool) {
+        values.project = [];
+        values.independent = [];
+        values.sex = parseInt(values.sex);
+        student.push(values);
+        msg = "录入成功"
+    }
+    return {
+        status: 200,
+        msg: msg,
+        student: student
+    }
+})
+// 获取教师个人信息
+Mock.mock('/api/admin/teacher', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let list;
+    (teacher || []).map((item) => {
+        if (item.netID == id) {
+            list = item;
+        }
+    });
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 查询教师个人信息
+Mock.mock('/api/admin/searchteacher', 'post', (req) => {
+    let id = JSON.parse(req.body).id;
+    let list = [];
+    if (id) {
+        (teacher || []).map((item) => {
+            if (item.netID == id) {
+                list.push(item);
+            }
+        });
+    } else {
+        list = teacher
+    }
+    return {
+        status: 200,
+        msg: '获取数据成功',
+        list: list
+    }
+})
+// 教师录入
+Mock.mock('/api/set/teacher', 'post', (req) => {
+    let values = JSON.parse(req.body).values;
+    let bool = true;
+    let msg;
+    (teacher || []).map((item) => {
+        if (item.netID == values.netID) {
+            bool = false;
+            msg = "该id已存在"
+        }
+    })
+    if (bool) {
+        values.project = [];
+        values.independent = [];
+        values.sex = parseInt(values.sex);
+        teacher.push(values);
+        msg = "录入成功"
+    }
+    return {
+        status: 200,
+        msg: msg,
+        teacher: teacher
     }
 })

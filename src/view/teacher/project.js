@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ProjectContent from '../public/projectContent';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Breadcrumb, Button, Divider, Steps, Modal, Form, Input, DatePicker, TimePicker, BackTop } from 'antd';
 import { CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
 import '../../styles/teacher/Project.scss';
@@ -207,6 +207,7 @@ const Project = () => {
     wrapperCol: { span: 16 },
   };
 
+  const history = useHistory();
   useEffect(() => {
     axios.post('/api/teacher/project', { sid: sid }).then((res) => {
       setProject(res.data.project);
@@ -336,10 +337,11 @@ const Project = () => {
     })
   }
   const handle = () => {
-    setIsDetailVisible(false)
+    setIsDetailVisible(false);
+    // history.go(0)
   }
   const hidden = () => {
-    setIsScoreVisible(false)
+    setIsScoreVisible(false);
   }
   const setScore = (values, tid, id, sid) => {
     // console.log(values, tid, id, sid);
@@ -429,18 +431,20 @@ const Project = () => {
               />
         }
       </Modal>
-      <Modal
-        maskClosable={false}
-        title="课程详情"
-        visible={isDetailVisible}
-        // onOk={handleOk}
-        onCancel={handle}
-        footer={[]}
-        // className="dialog"
-        width={window.screen.width * 0.5}
-      >
-        <Detail detail={detail} />
-      </Modal>
+      {
+        isDetailVisible && (<Modal
+          maskClosable={false}
+          title="课程详情"
+          visible={isDetailVisible}
+          // onOk={handleOk}
+          onCancel={handle}
+          footer={[]}
+          // className="dialog"
+          width={window.screen.width * 0.5}
+        >
+          <Detail detail={detail} />
+        </Modal>)
+      }
       <Modal
         maskClosable={false}
         title="打分"

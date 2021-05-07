@@ -36,7 +36,7 @@ const Index = () => {
     wrapperCol: { span: 20 },
   };
   const addActive = (values) => {
-    axios.post('/api/add/active',{values:values}).then((res)=>{
+    axios.post('/api/add/active', { values: values }).then((res) => {
       setIsActive(false);
       axios.post('/api/get/active', { page: 0 }).then((res) => {
         setActive(res.data.active);
@@ -49,14 +49,14 @@ const Index = () => {
   const hidden = () => {
     setIsActive(false);
   }
-  const showAnnounce=()=>{
+  const showAnnounce = () => {
     setIsAnnounce(true);
   }
-  const announceHidden=()=>{
+  const announceHidden = () => {
     setIsAnnounce(false);
   }
   const addAnnounce = (values) => {
-    axios.post('/api/add/announce',{values:values}).then((res)=>{
+    axios.post('/api/add/announce', { values: values }).then((res) => {
       setIsAnnounce(false);
     })
   }
@@ -65,7 +65,13 @@ const Index = () => {
       <div className="studentIndex">
         <div className="top">
           <div className="drop" onClick={showActive}>添加教务动态</div>
-          <div className="drop"  onClick={showAnnounce}>添加通知公告</div>
+          <div className="drop" onClick={showAnnounce}>添加通知公告</div>
+          <Link to="/admin/teacher" className="link">
+            <div className="drop">教师信息</div>
+          </Link>
+          <Link to="/admin/student" className="link">
+            <div className="drop">学生信息</div>
+          </Link>
           <Button type="text" className="logOut" onClick={logout}>退出</Button>
         </div>
         <div className="announce">

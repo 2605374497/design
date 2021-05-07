@@ -74,18 +74,21 @@ const Course = () => {
       />
       <Divider className="divider" />
       <ProjectContent onAddClass={add} onShowDetail={onShowDetail} project={project} type="studentSelect" />
-      <Modal
-        maskClosable={false}
-        title="课程详情"
-        visible={isDetailVisible}
-        // onOk={handleOk}
-        onCancel={handle}
-        footer={[]}
-        // className="dialog"
-        width={window.screen.width * 0.5}
-      >
-        <Detail detail={detail} />
-      </Modal>
+      {
+        isDetailVisible && (<Modal
+          maskClosable={false}
+          title="课程详情"
+          visible={isDetailVisible}
+          // onOk={handleOk}
+          onCancel={handle}
+          footer={[]}
+          // className="dialog"
+          width={window.screen.width * 0.5}
+        >
+          <Detail detail={detail} />
+        </Modal>)
+      }
+
     </div>
   )
 

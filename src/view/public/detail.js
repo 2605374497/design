@@ -14,56 +14,56 @@ const Detail = (props) => {
       <Form.Item
         name="teacher"
         label="授课教师"
-        initialValue={detail?.teacher}
+        initialValue={detail ? detail?.teacher : ''}
       >
         <Input placeholder="请输入课程名" disabled />
       </Form.Item>
       <Form.Item
         name="name"
         label="课程名称"
-        initialValue={detail?.name}
+        initialValue={detail ? detail?.name : ''}
       >
         <Input placeholder="请输入课程名" disabled />
       </Form.Item>
       <Form.Item
         name="description"
         label="课程简介"
-        initialValue={detail?.description}
+        initialValue={detail ? detail?.description : ''}
       >
         <Input placeholder="请输入课程简介" disabled />
       </Form.Item>
       <Form.Item
         name="detail"
         label="课程详情"
-        initialValue={detail?.detail}
+        initialValue={detail ? detail?.detail : ''}
       >
         <Input.TextArea maxLength={100} disabled autoSize showCount placeholder="请输入课程详情" />
       </Form.Item>
       <Form.Item
         name="phone"
         label="联系电话"
-        initialValue={detail?.phone}
+        initialValue={detail ? detail?.phone : ''}
       >
         <Input placeholder="请输入联系电话" disabled />
       </Form.Item>
       <Form.Item
         name="address"
         label="上课地点"
-        initialValue={detail?.address}
+        initialValue={detail ? detail?.address : ''}
       >
         <Input placeholder="请输入联系电话" disabled />
       </Form.Item>
       <Form.Item
         name="classdate"
         label="课程日期"
-        initialValue={`${detail?.StartclassDate}--${detail?.EndclassDate}`}
+        initialValue={`${detail ? detail?.StartclassDate : ''}--${detail ? detail?.EndclassDate : ''}`}
       >
         <Input placeholder="请输入联系电话" disabled />
       </Form.Item>
       <Form.Item
         name="classtime"
         label="课程日期"
-        initialValue={`${detail?.StartclassTime}--${detail?.EndclassTime}`}
+        initialValue={`${detail ? detail?.StartclassTime : ''}--${detail ? detail?.EndclassTime : ''}`}
       >
         <Input placeholder="请输入联系电话" disabled />
       </Form.Item>

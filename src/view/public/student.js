@@ -19,6 +19,7 @@ const StudentProjectContent = (props) => {
     { title: '课程名称', dataIndex: 'name', key: 'name' },
     {
       title: '报名时间',
+      align: 'center', 
       dataIndex: 'signDate',
       key: 'signDate',
       render: (text, record) => {
@@ -30,6 +31,7 @@ const StudentProjectContent = (props) => {
     },
     {
       title: '课程开始日期',
+      align: 'center', 
       dataIndex: 'StartclassDate',
       key: 'start',
       render: (text, record) => {
@@ -40,6 +42,7 @@ const StudentProjectContent = (props) => {
     },
     {
       title: '课程开始时间',
+      align: 'center', 
       dataIndex: 'EndclassDate',
       key: 'start',
       render: (text, record) => {
@@ -49,7 +52,39 @@ const StudentProjectContent = (props) => {
       }
     },
     {
+      title: '状态',
+      align: 'center', 
+      dataIndex: 'state',
+      key: 'state',
+      render: (text, record) => {
+        let state = record?.state;
+        return state == "待报名" ?
+          <div className="state">
+            <div className="state1" />
+            <span>{state}</span>
+          </div>
+          : state == "报名中" ?
+            <div className="state">
+              <div className="state2" />
+              <span>{state}</span>
+            </div> : state == "未开始" ?
+              <div className="state">
+                <div className="state3" />
+                <span>{state}</span>
+              </div> : state == "进行中" ?
+                <div className="state">
+                  <div className="state4" />
+                  <span>{state}</span>
+                </div> :
+                <div className="state">
+                  <div className="state5" />
+                  <span>{state}</span>
+                </div>
+      }
+    },
+    {
       title: '课程人数',
+      align: 'center', 
       // dataIndex: `count`,
       key: 'count',
       render: (text, record) => {
@@ -60,6 +95,7 @@ const StudentProjectContent = (props) => {
     },
     {
       title: '成绩',
+      align: 'center', 
       dataIndex: 'state',
       key: 'state',
       render: (text, record) => {
@@ -70,6 +106,7 @@ const StudentProjectContent = (props) => {
     },
     {
       title: '操作',
+      align: 'center', 
       dataIndex: '',
       key: 'x',
       render: (record) => {

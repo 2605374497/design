@@ -19,9 +19,10 @@ const ProjectContent = (props) => {
     props?.appraise(tid, id);
   }
   const columns = [
-    { title: '课程名称', dataIndex: 'name', key: 'name' },
+    { title: '课程名称', align: 'center', dataIndex: 'name', key: 'name' },
     {
       title: '报名时间',
+      align: 'center', 
       dataIndex: 'signDate',
       key: 'signDate',
       render: (text, record) => {
@@ -33,6 +34,7 @@ const ProjectContent = (props) => {
     },
     {
       title: '课程开始日期',
+      align: 'center', 
       dataIndex: 'StartclassDate',
       key: 'start',
       render: (text, record) => {
@@ -43,6 +45,7 @@ const ProjectContent = (props) => {
     },
     {
       title: '课程开始时间',
+      align: 'center', 
       dataIndex: 'EndclassDate',
       key: 'start',
       render: (text, record) => {
@@ -53,6 +56,7 @@ const ProjectContent = (props) => {
     },
     {
       title: '课程人数',
+      align: 'center', 
       // dataIndex: `count`,
       key: 'count',
       render: (text, record) => {
@@ -63,6 +67,7 @@ const ProjectContent = (props) => {
     },
     {
       title: '状态',
+      align: 'center', 
       dataIndex: 'state',
       key: 'state',
       render: (text, record) => {
@@ -94,6 +99,7 @@ const ProjectContent = (props) => {
     {
       title: '操作',
       dataIndex: '',
+      align: 'center', 
       key: 'x',
       render: (record) => {
         return type == "teacher" ?
@@ -136,6 +142,7 @@ const ProjectContent = (props) => {
       <Table
         columns={columns}
         dataSource={project}
+
       // size="small"
       />
     </div>

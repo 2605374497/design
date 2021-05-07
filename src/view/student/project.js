@@ -44,7 +44,7 @@ const Project = () => {
       setIsAppraiseVisible(false);
     })
   }
-  
+
   return (
     <div className="project">
       <div className="container">
@@ -67,16 +67,18 @@ const Project = () => {
           type="student"
         />
       </div>
-      <Modal
-        maskClosable={false}
-        title="课程详情"
-        visible={isDetailVisible}
-        onCancel={handle}
-        footer={[]}
-        width={window.screen.width * 0.5}
-      >
-        <Detail detail={detail} />
-      </Modal>
+      {
+        isDetailVisible && (<Modal
+          maskClosable={false}
+          title="课程详情"
+          visible={isDetailVisible}
+          onCancel={handle}
+          footer={[]}
+          width={window.screen.width * 0.5}
+        >
+          <Detail detail={detail} />
+        </Modal>)
+      }
       <Modal
         maskClosable={false}
         title="课程评价"

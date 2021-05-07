@@ -32,6 +32,10 @@ import TeacherAnnounceDetail from './view/teacher/AnnounceDetail';
 import TeacherActiveDetail from './view/teacher/ActiveDetail';
 // 管理员首页
 import AdminIndex from './view/admin/Index';
+// 教师列表
+import AdminStudent from './view/admin/student';
+// 学生列表
+import AdminTeacher from './view/admin/teacher';
 // 通知公告
 import AdminAnnounce from './view/admin/Announce';
 // 教务动态
@@ -60,6 +64,8 @@ function App() {
         <Route component={AdminAnnounceDetail} path='/admin/announce/detail'></Route>
         <Route component={AdminActive} path='/admin/active'></Route>
         <Route component={AdminAnnounce} path='/admin/announce'></Route>
+        <Route component={AdminStudent} path='/admin/student'></Route>
+        <Route component={AdminTeacher} path='/admin/teacher'></Route>
         {/* 学生页面 */}
         <Route component={StudentProject} path='/student/project'></Route>
         <Route component={Course} path='/student/chance/course'></Route>

@@ -257,7 +257,7 @@ const Index = () => {
               ]}
               initialValue={studentMessage ? studentMessage?.email : ''}
             >
-              <Input placeholder="请输入院系" disabled={bool} />
+              <Input placeholder="请输入院系" disabled />
             </Form.Item>
 
             <Form.Item
@@ -271,7 +271,7 @@ const Index = () => {
               }]}
               initialValue={studentMessage ? studentMessage?.phone : ''}
             >
-              <Input placeholder="请输入年龄" disabled={bool} />
+              <Input placeholder="请输入电话号码" disabled={bool} />
             </Form.Item>
             <Form.Item
               label="地址"
